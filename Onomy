@@ -1,2 +1,24 @@
 The first part of the testnet was flawless. 
 Randomly did not get into the second part of the test.
+
+Onomy-1
+onomyd keys add WALLET_NAME --recover
+screen -S onomy
+wget -q -O onomy.sh https://api.nodes.guru/onomy.sh && chmod +x onomy.sh && sudo /bin/bash onomy.sh
+screen -rd onomy
+wget -q -O onomy.sh https://api.nodes.guru/onomy.sh && chmod +x onomy.sh && sudo /bin/bash onomy.sh
+source $HOME/.bash_profile
+cat $HOME/.gbt/keys.json
+gbt keys show
+journalctl -u onomyd -f
+journalctl -u gbtd -f
+
+Onomy-2
+onomyd tx slashing unjail --chain-id $ONOMY_CHAIN --keyring-backend test --from $ONOMY_WALLET
+onomyd tx distribution withdraw-all-rewards --chain-id $ONOMY_CHAIN --keyring-backend test --from $ONOMY_WALLET
+onomyd q bank balances ADDRESS
+onomyd q bank balances $(onomyd keys show $ONOMY_WALLET --keyring-backend test -a)
+onomyd keys show $ONOMY_WALLET --keyring-backend test --bech val
+onomyd tx staking delegate YOUR_VALOPER_ADDRESS AMOUNTnom --chain-id $ONOMY_CHAIN --keyring-backend test --from $ONOMY_WALLET
+curl localhost:26657/status
+onomyd query staking validators --limit 1000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_BONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r | nl
