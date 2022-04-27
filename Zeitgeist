@@ -57,3 +57,5 @@ sudo systemctl enable zeitgeistd
 sudo systemctl restart zeitgeistd
 
 . <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/miscellaneous/insert_variable.sh) -n zeitgeist_log -v "sudo journalctl -fn 100 -u zeitgeistd" -a
+
+Not included in the list of remunerated node operators.
