@@ -1,0 +1,38 @@
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt install curl tar wget clang pkg-config libssl-dev \
+jq build-essential git make ncdu -y
+wget https://golang.org/dl/go1.17.2.linux-amd64.tar.gz; \
+rm -rv /usr/local/go 2>/dev/null; \
+tar -C /usr/local -xzf go1.17.2.linux-amd64.tar.gz && \
+rm -v go1.17.2.linux-amd64.tar.gz && \
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" \
+>> ~/.bash_profile && \
+source ~/.bash_profile && \
+go version
+$ cd && \
+rm -Rvf $HOME/evmos 2>/dev/null; \
+git clone https://github.com/tharsis/evmos.git && \
+cd $HOME/evmos && \
+make install && \
+cd
+rm $HOME/.evmosd/config/genesis.json 2>/dev/null
+evmosd keys add <nickname> --recover
+evmosd keys add <nickname>
+
+gentx.
+
+evmosd init <nickname> --chain-id=evmos_9000-2
+
+evmosd add-genesis-account \
+(evmosd keys show <nickname> -a) 1000000000000aphoton
+rm -Rvf $HOME/.evmosd/config/gentx
+evmosd gentx <nickname> 1000000000000aphoton \
+--commission-rate=0.1 \
+--commission-max-rate=1 \
+--commission-max-change-rate=0.1 \
+--pubkey $(evmosd tendermint show-validator) \
+--chain-id=evmos_9000-2
+
+$ cat $HOME/.evmosd/config/gentx/`ls $HOME/.evmosd/config/gentx/`
+
+Didn't make it to the testnet. We published information about the placement of PR on the genesis in github out of the blue on Saturday, only "ours" passed. Our PR is not added to github.
