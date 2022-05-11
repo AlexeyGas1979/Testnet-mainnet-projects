@@ -2,3 +2,5 @@ $ curl https://install.l15.lukso.network | bash
 $ lukso start --node-name "REPLACE-WITH-NODE-NAME"
 
 The testnet is over, we didn’t receive any awards, because we didn’t promise anything - we hoped for a “suddenly?”.
+
+https://docs.lukso.tech/networks/l15-testnet
