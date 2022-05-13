@@ -1,0 +1,30 @@
+wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.7_amd64.deb
+sudo apt install ./libssl1.0.0_1.0.2n-1ubuntu5.7_amd64.deb
+./cell zkp --params
+curl https://static.celllab.io/chain/witness.bin > witness.bin
+curl https://static.celllab.io/chain/params.bin > params.bin
+curl 'http://bot.celllab.io/coin/5FyHCb1T4tAMCFci2YhikhtwNBC87usTWmGiGyfdrZtL1Ynd'
+curl 'http://bot.celllab.io/balance/5FyHCb1T4tAMCFci2YhikhtwNBC87usTWmGiGyfdrZtL1Ynd'
+./cell purge-chain -y
+./cell --miner 0xd606b3d846eb749fa440365103a5d10a33e099fb7d4adae8091f251d13e15f8e
+./cell --port=30333 --base-path=/mnt/node1 --miner <seed1>
+./cell --port=30334 --base-path=/mnt/node2 --miner <seed2>
+./cell --port=30335 --base-path=/mnt/node3 --miner <seed3>
+cell
+cell --base-path=<path>
+cell --bootnodes=/ip4/127.0.0.1/tcp/30333/p2p/12D3KooWPJMiEvJ35ads69T4zVAVvihYwqvsA3HwPG47xhFPpUXQ
+cell --port=30333
+cell purge-chain -y
+cell key generate
+cell zkp --params
+cell --miner 0x6ad0f5894dfd1d50f0cd5a169bd34c498905709c4efb62085c18b9e0d668f4ac
+visit https://faucet.celllab.io/ to receive your test tokens
+curl http://bot.celllab.io/coin/5FyHCb1T4tAMCFci2YhikhtwNBC87usTWmGiGyfdrZtL1Ynd
+visit http://wallet.celllab.io/ to check your balance of test tokens
+curl http://bot.celllab.io/balance/5FyHCb1T4tAMCFci2YhikhtwNBC87usTWmGiGyfdrZtL1Ynd
+nohup ./cell 2>&1 >> cell.log &
+tail -f cell.log
+ps -e | grep cell
+kill -9 [pid]
+
+This project turned out to be a rekt: enterprising guys organized a miner for IronFish.
