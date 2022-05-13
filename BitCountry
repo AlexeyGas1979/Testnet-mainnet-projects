@@ -15,3 +15,54 @@ docker logs -f validator
 curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9933
 
 We didn’t receive any allocations for the token sale, we didn’t manage to catch any goodies - because they entered the project late. What a pity!
+
+P.S.
+!drip 5HomuHQjUWNYzvDS6AAH567uUJ8EVyfSgWn3Wt8uTCHgB5M4
+!drip 5CJcbpXo1hS1sUGmBcZWss45mkCtjP6tmxz3DfA2stFZunxR
+
+mkdir -p /srv/bitcountry-node
+chown -R 1000:1000 /srv/bitcountry-node
+docker run -v /srv/bitcountry-node:/bitcountry-db ...
+
+docker run --network=host -v /tewaiDb/bitcountry-node:/bitcountry-db
+
+
+docker run -v /srv/bitcountry-node:/bitcountry-db bitcountry/bitcountry-node:5f860f4 -d /bitcountry-db --chain tewai --bootnodes /ip4/13.239.118.231/tcp/30344/p2p/12D3KooW9rDqyS5S5F6oGHYsmFjSdZdX6HAbTD88rPfxYfoXJdNU --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' --pruning archive
+
+docker run --restart = if-stop --network = host -v / tewaiDb / bitcountry-node: / bitcountry-db bitcountry / bitcountry-node: 5f860f4 -d / bitcountry-db --chain tewai --validator --name '001Gas' --bootnodes /ip4/13.239.118.231/tcp/30344/p2p/12D3KooW9rDqyS5S5F6oGHYsmFjSdZdX6HAbTD88rPfxYfoXJdNU --telemetry-url 'wryss.iokit.io / 
+
+
+2021-07-02 11:45:52 BitCountry Node
+2021-07-02 11:45:52 ✌️  version 0.0.1-unknown-x86_64-linux-gnu
+2021-07-02 11:45:52 ❤️  by BitCountry Developers <https://mvp.studio>, 2020-2021
+2021-07-02 11:45:52 📋 Chain specification: Bit.Country Tewai Chain
+2021-07-02 11:45:52 🏷 Node name: habitual-rhythm-4791
+2021-07-02 11:45:52 👤 Role: FULL
+2021-07-02 11:45:52 💾 Database: RocksDb at /bitCountry/.local/share/bitcountry-node/chains/tewai_testnet/db
+2021-07-02 11:45:52 ⛓  Native runtime: bitcountry-node-264 (bitcountry-node-0.tx2.au10)
+2021-07-02 11:45:52 🔨 Initializing Genesis block/state (state: 0x9f0e…c5ed, header-hash: 0xfff6…31b5)
+2021-07-02 11:45:52 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
+2021-07-02 11:45:52 ⏱  Loaded block-time = 3000 milliseconds from genesis on first-launch
+2021-07-02 11:45:52 👶 Creating empty BABE epoch changes on what appears to be first startup.
+2021-07-02 11:45:52 Using default protocol ID "sup" because none is configured in the chain specs
+2021-07-02 11:45:52 🏷 Local node identity is: 12D3KooWDkicXKdHE4gRpi4ZyXeaAB6ynRKL2JuFFqHWbEFkDKZR
+2021-07-02 11:45:52 📦 Highest known block at #0
+2021-07-02 11:45:52 〽️ Prometheus server started at 127.0.0.1:9615
+
+
+21-07-02 11:47:57 ❤️  by BitCountry Developers <https://mvp.studio>, 2020-2021
+2021-07-02 11:47:57 📋 Chain specification: Bit.Country Tewai Chain
+2021-07-02 11:47:57 🏷 Node name: fluffy-rule-3466
+2021-07-02 11:47:57 👤 Role: FULL
+2021-07-02 11:47:57 💾 Database: RocksDb at /bitcountry-db/chains/tewai_testnet/db
+2021-07-02 11:47:57 ⛓  Native runtime: bitcountry-node-264 (bitcountry-node-0.tx2.au10)
+2021-07-02 11:47:57 🔨 Initializing Genesis block/state (state: 0x9f0e…c5ed, header-hash: 0xfff6…31b5)
+2021-07-02 11:47:57 👴 Loading GRANDPA authority set from genesis on what appears to be first startup.
+2021-07-02 11:47:57 ⏱  Loaded block-time = 3000 milliseconds from genesis on first-launch
+2021-07-02 11:47:57 👶 Creating empty BABE epoch changes on what appears to be first startup.
+2021-07-02 11:47:57 Using default protocol ID "sup" because none is configured in the chain specs
+2021-07-02 11:47:57 🏷 Local node identity is: 12D3KooWAYqCMdvbSBzUdC1JYtKb8d1MBooGPCJJDjFn4EDR2Ept
+2021-07-02 11:47:57 📦 Highest known block at #0
+
+chown -R 1000 /tewaiDb/bitcountry-node
+docker run --restart=unless-stopped --network=host -v /tewaiDb/bitcountry-node:/bitcountry-db bitcountry/bitcountry-node:5f860f4 -d /bitcountry-db --chain tewai --validator --name '001Gas' --bootnodes /ip4/13.239.118.231/tcp/30344/p2p/12D3KooW9rDqyS5S5F6oGHYsmFjSdZdX6HAbTD88rPfxYfoXJdNU --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0'
