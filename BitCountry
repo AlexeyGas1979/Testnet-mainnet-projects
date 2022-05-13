@@ -14,4 +14,4 @@ docker start validator
 docker logs -f validator
 curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9933
 
-We didn’t receive any allocations for the token sale, we didn’t manage to catch any goodies - because they entered the project late.
+We didn’t receive any allocations for the token sale, we didn’t manage to catch any goodies - because they entered the project late. What a pity!
