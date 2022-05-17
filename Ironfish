@@ -1,0 +1,31 @@
+wget -q -O ironfish.sh https://api.nodes.guru/ironfish.sh && chmod +x ironfish.sh && sudo /bin/bash ironfish.sh
+. $HOME/.bashrc
+. $HOME/.bash_profile
+ironfish config:set nodeName $IRONFISH_NODENAME
+ironfish config:set blockGraffiti $IRONFISH_NODENAME
+ironfish accounts:create $IRONFISH_WALLET
+ironfish accounts:use $IRONFISH_WALLET
+ironfish accounts:balance $IRONFISH_WALLET
+
+ironfish status -f
+ironfish config:set enableTelemetry true
+ironfish accounts:pay
+ironfish accounts:pay -f MySecondAccount
+ironfish accounts:publickey
+ironfish accounts:publickey -a MySecondAccount
+ironfish accounts:list
+ironfish accounts:export AccountName filename
+ironfish accounts:import filename
+ironfish accounts:remove MyAccount
+ironfish peers:list -fe
+
+mkdir -p $HOME/.ironfish/keys
+ironfish accounts:export $IRONFISH_WALLET $HOME/.ironfish/keys/$IRONFISH_WALLET.json
+ironfish accounts:import PATH_TO_THE_KEY
+ironfish status -f
+journalctl -u ironfishd -f
+journalctl -u ironfishd-miner -f
+service ironfishd stop
+service ironfishd-miner stop
+
+This whole story requires powerful hardware on a dedicated server. Otherwise, we simply lose the competition. Without catching anything, we leave with our heads bowed, but our honor preserved.
