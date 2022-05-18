@@ -1,0 +1,32 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install make clang pkg-config libssl-dev libclang-dev build-essential git curl ntp jq llvm tmux
+
+wget https://golang.org/dl/go1.18.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
+cat <<EOF >> ~/.profile
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export GO111MODULE=on
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+EOF
+source ~/.profile
+
+go version
+
+git clone https://github.com/archway-network/archway
+cd archway
+git checkout main
+make install
+HOMEDIR=~/.archway
+
+archwayd init <Имя_Валидатора> --chain-id torii-1 --home $HOMEDIR
+wget https://raw.githubusercontent.com/archway-network/testnets/main/torii-1/penultimate_genesis.json
+cp penultimate_genesis.json $HOMEDIR/config/genesis.json
+archwayd keys add <Имя_Валидатора> --home $HOMEDIR
+
+mnemonic
+
+archwayd add-genesis-account $(archwayd keys show <Ваше_имя_Валидатора> -a --home $HOMEDIR)  1001000utorii --home $HOMEDIR
+archwayd gentx <Ваше_имя_Валидатора> 1000000utorii --commission-rate 0.1 --commission-max-rate 0.1 --commission-max-change-rate 0.1 --pubkey $(archwayd tendermint show-validator --home $HOMEDIR) --chain-id torii-1
+
+We did not get into the genesis, servers are not needed. We will shoot and transfer to other projects. Fiasco for experience. The server went to IronFish
