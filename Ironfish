@@ -29,3 +29,5 @@ service ironfishd stop
 service ironfishd-miner stop
 
 This whole story requires powerful hardware on a dedicated server. Otherwise, we simply lose the competition. Without catching anything, we leave with our heads bowed, but our honor preserved.
+Sequel to Ironfish 2
+18.05.22 A new part of the testnet with rewards has started. Nodes and miners are available for installation. 2 nodes installed. Sequel to Ironfish 2
