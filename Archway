@@ -30,3 +30,4 @@ archwayd add-genesis-account $(archwayd keys show <Ваше_имя_Валида�
 archwayd gentx <Ваше_имя_Валидатора> 1000000utorii --commission-rate 0.1 --commission-max-rate 0.1 --commission-max-change-rate 0.1 --pubkey $(archwayd tendermint show-validator --home $HOMEDIR) --chain-id torii-1
 
 We did not get into the genesis, servers are not needed. We will shoot and transfer to other projects. Fiasco for experience. The server went to IronFish
+Started testnet #2
