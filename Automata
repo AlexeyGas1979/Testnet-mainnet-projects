@@ -1,0 +1,14 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install wget git build-essential jq -y
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/installers/docker.sh)
+mkdir automata
+docker run -it \
+  -v "/automata:/data" \
+  -u $(id -u ${USER}):$(id -g ${USER}) \
+  -d \
+  atactr/automata:contextfree-v0.1.0-rc4 \
+  --node-type full \
+  --name <YOUR_NODE_NAME>
+  docker ps -a
+  docker logs --follow <YOUR_CONTAINER_ID>
+  
