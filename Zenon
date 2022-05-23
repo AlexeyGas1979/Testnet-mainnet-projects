@@ -1,0 +1,19 @@
+apt update
+apt upgrade
+apt-get install ntp
+Restart
+apt install zip  
+wget https://testnet.znn.space/downloads/znn-testnet-bundle-linux-amd64.zip 	 
+unzip znn-testnet-bundle-linux-amd64.zip  
+chmod +x znnd (if get error- paste: cd znn-testnet-bundle-linux-amd64 ) And try step 4 again chmod +x znnd
+chmod +x znn-cli
+chmod +x znn-deployer
+ls -la
+./znn-cli enableRPC
+./znn-deployer
+./znn-deployer
+./znn-cli wallet.createFromMnemonic "your syrius mnemonic password goes in between these quotations" yoursyriuspasswordgoeshere
+./znn-deployer
+./znn-cli start znnd
+./znn-cli pillar.list
+./znn-cli resync
