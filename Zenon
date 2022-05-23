@@ -17,3 +17,5 @@ ls -la
 ./znn-cli start znnd
 ./znn-cli pillar.list
 ./znn-cli resync
+
+Sentinel and Pillar nodes are configured.
