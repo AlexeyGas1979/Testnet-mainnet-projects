@@ -12,3 +12,4 @@ docker run -it \
   docker ps -a
   docker logs --follow <YOUR_CONTAINER_ID>
   
+Awarded 20 ATA each.
