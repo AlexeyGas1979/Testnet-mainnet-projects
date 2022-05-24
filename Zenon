@@ -19,3 +19,5 @@ ls -la
 ./znn-cli resync
 
 Sentinel and Pillar nodes are configured.
+
+Testnet successful. Got 400 QSR
