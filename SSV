@@ -1,0 +1,37 @@
+cd $HOME
+wget -q -O $HOME/install.sh https://raw.githubusercontent.com/bloxapp/ssv/main/install.sh
+chmod +x $HOME/install.sh
+./install.sh
+docker run -d --name=ssv_node_op_key -it 'bloxstaking/ssv-node:latest' \
+/go/bin/ssvnode generate-operator-keys && docker logs ssv_node_op_key --follow \
+&& docker stop ssv_node_op_key && docker rm ssv_node_op_key
+export SSV_DB=$HOME/.ssv
+mkdir -p $SSV_DB
+yq n db.Path "$SSV_DB" | tee $SSV_DB/config.yaml \
+&& yq w -i $SSV_DB/config.yaml eth2.Network "prater" \
+&& yq w -i $SSV_DB/config.yaml eth2.BeaconNodeAddr "<YOUR_BEACON_ETH2_ENDPOINT>" \
+&& yq w -i $SSV_DB/config.yaml eth1.ETH1Addr "<YOUR_WSS_GOERLI_ETH_ENDPOINT>" \
+&& yq w -i $SSV_DB/config.yaml eth1.RegistryContractAddr "0x687fb596F3892904F879118e2113e1EEe8746C2E" \
+&& yq w -i $SSV_DB/config.yaml MetricsAPIPort "15000" \
+&& yq w -i $SSV_DB/config.yaml OperatorPrivateKey "<YOUR_PRIVATE_KEY_FROM_2.1>"
+docker run -d --restart unless-stopped --name=ssv_node -e \
+CONFIG_PATH=./config.yaml -p 13000:13000 -p 12000:12000 -v \
+$SSV_DB/config.yaml:/config.yaml -v $SSV_DB:/data -it \
+'bloxstaking/ssv-node:latest' make BUILD_PATH=/go/bin/ssvnode start-node
+docker logs ssv_node --follow --tail=50
+cd $HOME
+wget -q -O $HOME/eth2deposit-cli-256ea21-linux-amd64.tar.gz https://github.com/ethereum/eth2.0-deposit-cli/releases/download/v1.2.0/eth2deposit-cli-256ea21-linux-amd64.tar.gz
+tar -xzf $HOME/eth2deposit-cli-256ea21-linux-amd64.tar.gz
+$HOME/eth2deposit-cli-256ea21-linux-amd64/deposit new-mnemonic --num_validators 1 --chain prater
+
+Update:
+export SSV_DB=$HOME/.ssv
+docker rm -f ssv_node
+docker pull bloxstaking/ssv-node:latest
+docker run -d --restart unless-stopped --name=ssv_node -e \
+CONFIG_PATH=./config.yaml -p 13000:13000 -p 12000:12000 -v \
+$SSV_DB/config.yaml:/config.yaml -v $SSV_DB:/data -it \
+'bloxstaking/ssv-node:latest' make BUILD_PATH=/go/bin/ssvnode start-node
+
+Logs:
+docker logs ssv_node --follow --tail=50
