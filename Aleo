@@ -1,0 +1,88 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install wget jq git build-essential pkg-config libssl-dev -y
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/installers/rust.sh)
+cd; git clone https://github.com/AleoHQ/snarkOS.git --depth 1
+cd snarkOS
+cargo build --release
+mv $HOME/snarkOS/target/release/snarkos /usr/bin
+
+snarkos --version
+
+echo $HOME/account_aleo.txt
+
+snarkos experimental new_account > $HOME/account_aleo.txt
+echo $HOME/account_aleo.txt
+
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/miscellaneous/insert_variable.sh) -n aleo_wallet_address -v `grep -oPm1 "(?<=Address  )([^%]+)(?=$)" $HOME/account_aleo.txt`
+echo $aleo_wallet_address
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/miscellaneous/ports_opening.sh) 3032 4132
+printf "[Unit]
+Description=Aleo Miner
+After=network-online.target
+
+[Service]
+User=$USER
+ExecStart=`which snarkos` --miner $aleo_wallet_address --trial  --node 0.0.0.0:4132 --rpc 0.0.0.0:3032
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/aleod.service
+
+sudo systemctl daemon-reload
+sudo systemctl enable aleod
+sudo systemctl restart aleod
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/miscellaneous/insert_variable.sh) -n aleo_log -v "sudo journalctl -fn 100 -u aleod" -a
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/miscellaneous/insert_variable.sh) -n aleo_node_info -v ". <(wget -qO- https://raw.githubusercontent.com/SecorD0/Aleo/main/node_info.sh) -l RU 2> /dev/null" -a
+aleo_log
+
+Other installation way:
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/Aleo/main/multi_tool.sh)
+echo $HOME/account_aleo.txt
+
+sudo systemctl stop aleod
+rm -rf $HOME/.aleo/storage/ledger-2
+sudo systemctl restart aleod
+
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/miscellaneous/insert_variable.sh) -n aleo_node_info -v ". <(wget -qO- https://raw.githubusercontent.com/SecorD0/Aleo/main/node_info.sh) -l RU 2> /dev/null" -a
+aleo_node_info
+
+echo "https://nodes.guru/aleo/aleochecker?q=`wget -qO- eth0.me`"
+
+cd; git clone https://github.com/AleoHQ/snarkOS.git --depth 1
+
+cd $HOME/snarkOS && \
+git stash; \
+git pull; \
+cargo clean; \
+cargo build --release; \
+mv $HOME/snarkOS/target/release/snarkos /usr/bin; \
+cd
+
+sudo systemctl restart aleod
+
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/Aleo/main/multi_tool.sh) -u
+
+printf "[Unit]
+Description=Aleo auto-updater
+After=network.target
+
+[Service]
+type=forking
+User=$USER
+Environment="HOME=$HOME"
+WorkingDirectory=$HOME
+ExecStartPre=`which wget` -qO $HOME/.aleo/multi_tool.sh https://raw.githubusercontent.com/SecorD0/Aleo/main/multi_tool.sh
+ExecStartPre=`which chmod` +x $HOME/.aleo/multi_tool.sh
+ExecStart=$HOME/.aleo/multi_tool.sh -u
+Restart=always
+RestartSec=1m
+
+WantedBy=multi-user.target" > /etc/systemd/system/aleou.service
+
+sudo systemctl daemon-reload
+sudo systemctl enable aleou
+sudo systemctl restart aleou
+
+sudo journalctl -fn 100 -u aleou
