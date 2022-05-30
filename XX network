@@ -1,0 +1,36 @@
+Node:
+cd /opt/
+sudo curl -L -O https://docs.xx.network/mainnet/node.tar.gz
+sha256sum node.tar.gz
+sudo tar -xvf node.tar.gz
+sudo chmod +x /opt/xxnetwork/bin/*
+cd /opt/xxnetwork/ && python3 generate-certs.py
+ls -1 cred/
+scp -r [Node username]@[Node public IP]:/opt/xxnetwork/cred/ cred/
+sudo rm /opt/xxnetwork/cred/gateway-key.key
+sudo nano /opt/xxnetwork/config/cmix.yaml
+sudo nano /opt/xxnetwork/xxnetwork-cmix.service
+sudo nano /opt/xxnetwork/xxnetwork-chain.service
+sudo apt install -y postgresql-client postgresql postgresql-contrib
+sudo update-rc.d postgresql enable
+sudo service postgresql start
+sudo -u postgres createuser --createdb --pwprompt cmix
+sudo -u postgres createdb -O cmix cmix_node
+sudo nano /opt/xxnetwork/config/cmix.yaml
+sudo su postgres
+psql
+postgres-# \l
+postgres-# \q
+exit
+timedatectl status
+sudo ln -s /opt/xxnetwork/xxnetwork-cmix.service /etc/systemd/system
+sudo ln -s /opt/xxnetwork/xxnetwork-chain.service /etc/systemd/system
+sudo systemctl daemon-reexec
+sudo chown [user]:[user] -Rv /opt/xxnetwork/
+sudo systemctl enable xxnetwork-cmix.service
+sudo systemctl enable xxnetwork-chain.service
+sudo systemctl start xxnetwork-chain.service
+sudo systemctl start xxnetwork-cmix.service
+sudo systemctl status xxnetwork-cmix.service
+sudo systemctl status xxnetwork-chain.service
+ps -A | grep xxnetwork
