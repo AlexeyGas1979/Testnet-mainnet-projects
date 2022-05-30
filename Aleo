@@ -87,4 +87,4 @@ sudo systemctl restart aleou
 
 sudo journalctl -fn 100 -u aleou
 
-The testnet failed. The node is disabled.
+We were offered to enter the pool, it turned out that all the awards were taken by the founders of the pool. The testnet failed. The node is disabled.
