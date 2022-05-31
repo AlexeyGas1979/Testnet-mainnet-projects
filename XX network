@@ -34,3 +34,52 @@ sudo systemctl start xxnetwork-cmix.service
 sudo systemctl status xxnetwork-cmix.service
 sudo systemctl status xxnetwork-chain.service
 ps -A | grep xxnetwork
+
+Gateway
+cd /opt/
+sudo curl -L -O https://docs.xx.network/mainnet/gateway.tar.gz
+sha256sum gateway.tar.gz
+sudo tar -xvf gateway.tar.gz
+sudo chmod +x /opt/xxnetwork/bin/*
+scp cred/gateway-cert.crt cred/gateway-key.key cred/cmix-cert.crt [Gateway username]@[Gateway public IP]:/opt/xxnetwork/cred/
+ls -1 /opt/xxnetwork/cred/
+cmix-cert.crt
+gateway-cert.crt
+gateway-key.key
+network-management.crt
+scheduling-cert.crt
+rm /opt/xxnetwork/cred/gateway-key.key
+sudo nano /opt/xxnetwork/config/gateway.yaml
+sudo nano /opt/xxnetwork/xxnetwork-gateway.service
+sudo nano /opt/xxnetwork/xxnetwork-chain.service
+sudo apt install -y postgresql-client postgresql postgresql-contrib
+
+sudo update-rc.d postgresql enable
+sudo service postgresql start
+sudo -u postgres createuser --createdb --pwprompt cmix
+
+sudo -u postgres createdb -O cmix cmix_gateway
+sudo nano /opt/xxnetwork/config/gateway.yaml
+
+sudo su postgres
+psql
+postgres-# \l
+postgres-# \q
+exit
+
+timedatectl status
+sudo ln -s /opt/xxnetwork/xxnetwork-gateway.service /etc/systemd/system
+
+sudo ln -s /opt/xxnetwork/xxnetwork-chain.service /etc/systemd/system
+sudo systemctl daemon-reexec
+
+sudo chown [user]:[user] -Rv /opt/xxnetwork
+sudo systemctl enable xxnetwork-gateway.service
+sudo systemctl enable xxnetwork-chain.service
+sudo systemctl start xxnetwork-gateway.service
+sudo systemctl start xxnetwork-chain.service
+
+sudo systemctl status xxnetwork-gateway.service
+sudo systemctl status xxnetwork-chain.service
+
+ps -A | grep xxnetwork
