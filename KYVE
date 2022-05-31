@@ -1,0 +1,244 @@
+sudo apt-get update && \
+sudo apt-get upgrade -y
+sudo apt-get install wget unzip jq -y
+mkdir $HOME/kyve; \
+cd $HOME/kyve
+
+Pools:
+# moonbeam
+POOL=0 && \
+NAME="evm" && \
+BIN="kyve-evm" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# avalanche
+POOL=1 && \
+NAME="evm" && \
+BIN="kyve-evm" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# stacks /
+POOL=2 && \
+NAME="stacks" && \
+BIN="kyve-stx" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/$NAME-linux.zip && \
+unzip $NAME-linux.zip && \
+rm -Rvf $NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv $NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# bitcoin /
+POOL=3 && \
+NAME="bitcoin" && \
+BIN="kyve-btc" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv $NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# solana
+POOL=4 && \
+NAME="solana" && \
+BIN="kyve-sol" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# zilliqa
+POOL=5 && \
+NAME="zilliqa" && \
+BIN="kyve-zil" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# near
+POOL=6 && \
+NAME="near" && \
+BIN="kyve-near" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# celo
+POOL=7 && \
+NAME="celo" && \
+BIN="kyve-celo" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# evmos evm
+POOL=8 && \
+NAME="evm" && \
+BIN="kyve-evm" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# cosmos
+POOL=9 && \
+NAME="cosmos" && \
+BIN="kyve-cosmos" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# injective
+POOL=10 && \
+NAME="cosmos" && \
+BIN="kyve-cosmos" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# evmos cosmos
+POOL=11 && \
+NAME="cosmos" && \
+BIN="kyve-cosmos" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# axelar
+POOL=12 && \
+NAME="cosmos" && \
+BIN="kyve-cosmos" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# aurora
+POOL=13 && \
+NAME="evm" && \
+BIN="kyve-evm" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# cronos
+POOL=14 && \
+NAME="cosmos" && \
+BIN="kyve-cosmos" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+# terra
+POOL=15 && \
+NAME="cosmos" && \
+BIN="kyve-cosmos" && \
+VER=$(wget -qO- https://api.github.com/repos/kyve-org/$NAME/releases/latest | jq -r ".tag_name") && \
+wget https://github.com/kyve-org/$NAME/releases/download/$VER/kyve-$NAME-linux.zip && \
+unzip kyve-$NAME-linux.zip && \
+rm -Rvf kyve-$NAME-linux.zip __MACOSX && \
+chmod u+x * && \
+mv kyve-$NAME-linux /usr/bin/$BIN && \
+printf "\n$BIN version: $($BIN --version), pool id: $POOL.\n\n"
+
+scp path/myfile user@8.8.8.8:/full/path/to/new/location/
+
+MNEMONIC=mnemonic Keplr
+STAKE=number
+
+sudo tee <<EOF >/dev/null /etc/systemd/system/kyved.service
+[Unit]
+Description=Kyve Node
+After=network.target
+[Service]
+Type=simple
+User=$USER
+ExecStart=$(which $BIN) \\
+--poolId $POOL \\
+--mnemonic "$MNEMONIC" \\
+--initialStake $STAKE \\
+--keyfile /root/arweave.json \\
+--network korellia \\
+--space 10000000000 \\
+--verbose
+Restart=on-failure
+RestartSec=10
+LimitNOFILE=10000
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload && \
+sudo systemctl enable kyved && \
+sudo systemctl restart kyved
+
+sudo journalctl -u kyved -f -o cat
+
+sudo systemctl restart kyved
+
+sudo systemctl stop kyved
+
+sudo journalctl -u kyved -f -o cat
+
+Remove:
+sudo systemctl stop kyved && \
+sudo systemctl disable kyved
+rm -Rvf /usr/bin/kyve* $HOME/kyve
+sudo rm -v /etc/systemd/system/kyved.service && \
+sudo systemctl daemon-reload
