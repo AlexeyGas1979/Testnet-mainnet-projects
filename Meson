@@ -1,0 +1,12 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install screen curl git jq make net-tools netplan.io -y
+wget -q -O meson.sh https://api.nodes.guru/meson.sh && chmod +x meson.sh && sudo /bin/bash meson.sh
+
+/root/meson-linux-amd64/meson service-status
+
+/root/meson-linux-amd64/meson service-stop
+
+/root/meson-linux-amd64/meson service-start
+
+sudo apt install ncdu
+ncdu /
