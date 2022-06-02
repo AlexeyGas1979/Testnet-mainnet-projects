@@ -84,4 +84,4 @@ sudo systemctl status xxnetwork-chain.service
 
 ps -A | grep xxnetwork
 
-Participate in the Mannet
+Participate in the Mannet. We have a node & Gateway
