@@ -10,3 +10,8 @@ wget -q -O meson.sh https://api.nodes.guru/meson.sh && chmod +x meson.sh && sudo
 
 sudo apt install ncdu
 ncdu /
+
+Miners are working.
+
+Telemetry:
+https://meson.network/terminalbalance
