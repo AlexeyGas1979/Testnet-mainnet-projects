@@ -1,0 +1,16 @@
+ALCHEMY=YOUR_ALCHEMY_HTTP_ADDRESS
+echo 'export ALCHEMY='$ALCHEMY >> $HOME/.bash_profile
+wget -O starknet.sh https://api.nodes.guru/starknet.sh && chmod +x starknet.sh && ./starknet.sh
+
+Logs
+journalctl -u starknetd -f
+
+Restart
+systemctl restart starknetd
+
+Delite
+systemctl stop starknetd
+systemctl disable starknetd
+rm -rf ~/pathfinder/
+rm -rf /etc/systemd/system/starknetd.service
+rm -rf /usr/local/bin/pathfinder
