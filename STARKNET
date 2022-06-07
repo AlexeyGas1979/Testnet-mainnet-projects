@@ -15,4 +15,4 @@ rm -rf ~/pathfinder/
 rm -rf /etc/systemd/system/starknetd.service
 rm -rf /usr/local/bin/pathfinder
 
-The testnet continues.
+The testnet continues. Nodes updated
