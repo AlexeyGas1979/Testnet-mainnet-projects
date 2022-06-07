@@ -183,3 +183,4 @@ docker-compose down -v
 cd $HOME && rm -rf $HOME/subspace/ 
 
 The testnet continues. Now a new stage of the stress test with node memory
+Slight difficulty filling memory. We solve this issue.
