@@ -1,0 +1,68 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y git clang curl libssl-dev llvm libudev-dev
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+(press 1)
+
+reboot
+
+rustup toolchain add nightly
+rustup target add wasm32-unknown-unknown --toolchain nightly
+
+wget https://builds.gear.rs/gear-nightly-linux-x86_64.tar.xz && \
+tar xvf gear-nightly-linux-x86_64.tar.xz && \
+rm gear-nightly-linux-x86_64.tar.xz && \
+chmod +x gear-node
+
+apt install make
+
+git clone https://github.com/gear-tech/gear.git
+cd gear
+
+ make node-release
+ 
+cd /etc/systemd/system 
+touch gear-node.service 
+sudo nano gear-node.service
+
+[Unit] 
+Description=Gear Node 
+After=network.target 
+
+[Service] 
+Type=simple 
+User=root 
+WorkingDirectory=/root/ 
+ExecStart=/root/gear-node --execution wasm --log runtime --telemetry-url 'ws://telemetry-backend-shard.gear-tech.io:32001/submit 0' --name NODENAME  
+Restart=always 
+RestartSec=3 
+LimitNOFILE=10000
+ 
+[Install] 
+WantedBy=multi-user.target
+ ctrl+s , ctrl+x
+
+sudo systemctl restart systemd-journald 
+sudo systemctl daemon-reload 
+sudo systemctl enable gear-node 
+sudo systemctl restart gear-node
+Проверяем
+
+sudo journalctl -n 100 -f -u gear-node
+
+Telemetry
+https://telemetry.gear-tech.io/
+
+sudo systemctl start gear-node
+sudo systemctl stop gear-node
+sudo systemctl restart gear-node
+sudo systemctl status gear-node
+sudo journalctl -n 100 -f -u gear-node
+
+Update
+wget https://builds.gear.rs/gear-nightly-linux-x86_64.tar.xz && \
+tar xvf gear-nightly-linux-x86_64.tar.xz && \
+rm gear-nightly-linux-x86_64.tar.xz && \
+chmod +x gear-noar-node
+
+sudo systemctl restart gear-node
