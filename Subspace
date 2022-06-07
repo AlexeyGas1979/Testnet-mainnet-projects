@@ -181,3 +181,5 @@ Delite the node:
 cd $HOME/subspace
 docker-compose down -v
 cd $HOME && rm -rf $HOME/subspace/ 
+
+The testnet continues. Now a new stage of the stress test with node memory
