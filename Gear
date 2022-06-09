@@ -66,3 +66,5 @@ rm gear-nightly-linux-x86_64.tar.xz && \
 chmod +x gear-noar-node
 
 sudo systemctl restart gear-node
+
+The testnet continues, we are working to promote the project.
