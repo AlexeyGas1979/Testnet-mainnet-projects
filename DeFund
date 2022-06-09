@@ -1,0 +1,34 @@
+wget -q -O defund.sh https://api.nodes.guru/defund.sh && chmod +x defund.sh && sudo /bin/bash defund.sh
+source $HOME/.bash_profile
+defundd keys add wallet
+Faucet = https://bitszn.com/faucets.html
+defundd q bank balances YOUR_WALLET_ADDRESS
+
+Create validator:
+defundd tx staking create-validator \
+--amount=1000000ufetf \
+--pubkey=$(defundd tendermint show-validator) \
+--moniker="$DEFUND_NODENAME" \
+--chain-id=defund-private-1 \
+--commission-rate="0.10" \
+--commission-max-rate="0.20" \
+--commission-max-change-rate="0.01" \
+--min-self-delegation="1000000" \
+--gas="auto" \
+--from=wallet
+
+journalctl -u defund -f
+
+systemctl restart defund
+
+curl localhost:26657/status
+
+curl -s localhost:26657/status | jq .result.sync_info.catching_up
+
+defundd keys show wallet --bech val -a
+
+defundd tx staking delegate YOUR_VALOPER_ADDRESS 10000000ufetf --from wallet --chain-id defund-private-1 --fees 1000ufetf
+
+defundd query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_BONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
+
+defundd query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_UNBONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
