@@ -32,3 +32,6 @@ defundd tx staking delegate YOUR_VALOPER_ADDRESS 10000000ufetf --from wallet --c
 defundd query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_BONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
 
 defundd query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_UNBONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
+
+Testnet сontinues
+The user interface is available for testing. You can go to http://defund.app/ and take part in a closed testnet. Detailed instructions will be posted soon, and a Bugs and Wishes section will be added to Discord
