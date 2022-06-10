@@ -1,0 +1,21 @@
+wget -q -O oasys.sh https://api.nodes.guru/oasys.sh && chmod +x oasys.sh && sudo /bin/bash oasys.sh
+
+
+Logs:
+journalctl -u oasysd -f
+
+Restart:
+systemctl restart oasysd
+
+Sync:
+sudo -u geth geth attach ipc:/home/geth/.ethereum/geth.ipc --exec eth.syncing
+
+Delite:
+systemctl stop oasysd
+systemctl disable oasysd
+rm -rf /home/geth/*
+rm /etc/systemd/system/oasysd.service
+
+Ports:
+TCP/UDP port 30303
+TCP port 8545
