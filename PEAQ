@@ -1,0 +1,1 @@
+curl -s https://raw.githubusercontent.com/AlekseyMoskalev1/script/main/peaq > peaq.sh && chmod +x peaq.sh && ./peaq.sh
