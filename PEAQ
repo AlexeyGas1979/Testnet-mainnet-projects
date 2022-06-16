@@ -1,1 +1,3 @@
 curl -s https://raw.githubusercontent.com/AlekseyMoskalev1/script/main/peaq > peaq.sh && chmod +x peaq.sh && ./peaq.sh
+
+Everything works great. A little later there will be a guide on how to test their dAPP
