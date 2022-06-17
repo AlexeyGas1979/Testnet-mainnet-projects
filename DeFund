@@ -37,3 +37,18 @@ Testnet сontinues
 The user interface is available for testing. You can go to http://defund.app/ and take part in a closed testnet. Detailed instructions will be posted soon, and a Bugs and Wishes section will be added to Discord
 
 Node 1 is slow...
+
+Update snapshot:
+systemctl stop defund
+cd ~/.defund/
+cp data/priv_validator_state.json .
+mv data data_old
+wget http://repository.activenodes.io/snapshots/defund-private-1_2022-06-13.tar.gz
+tar xzvf defund*.tar.gz
+rm defund*.tar.gz
+mv priv_validator_state.json data/
+systemctl start defund && journalctl -u defund.service -f -o cat
+
+Remove old snapshot:
+cd ~/.defund/
+rm -rf data_old
