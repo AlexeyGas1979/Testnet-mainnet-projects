@@ -118,3 +118,129 @@ seid tx staking create-validator \
 --moniker "<name_moniker>" \
 --from <name_wallet> \
 --fees 5550usei
+
+Commands:
+Check blocks:
+seid status 2>&1 | jq ."SyncInfo"."latest_block_height"
+
+Logs:
+sudo journalctl -u seid -f -o cat
+
+Status:
+curl localhost:26657/status
+
+Balance:
+seid q bank balances <address>
+
+Check validator:
+seid query staking validator <valoper_address>
+seid query staking validators --limit 1000000 -o json | jq '.validators[] | select(.description.moniker=="<name_moniker>")' | jq
+
+Check TX_HASH info:
+seid query tx <TX_HASH>
+
+Net`s parameters:
+seid q staking params
+seid q slashing params
+
+How many blocks validator skip:
+seid q slashing signing-info $(seid tendermint show-validator)
+
+TX validator create:
+seid query txs --events='create_validator.validator=<your_valoper_address>' -o=json | jq .txs[0].txhash -r
+Транзакции
+
+Claim revards:
+seid tx distribution withdraw-rewards <valoper_address> --from <name_wallet> --fees 5555usei --commission -y
+
+Own stake delegation (1 token):
+seid tx staking delegate <valoper_address> 1000000usei --from <name_wallet> --fees 5555usei -y
+
+Redelegation to other validator:
+seid tx staking redelegate <src-validator-addr> <dst-validator-addr> 1000000usei --from <name_wallet> --fees 5555usei -y
+
+Unbond:
+seid tx staking unbond <addr_valoper> 1000000usei --from <name_wallet> --fees 5555usei -y
+
+Send tockens to other address:
+seid tx bank send <name_wallet> <address> 1000000usei --fees 5555usei -y
+
+Unjail:
+seid tx slashing unjail --from <name_wallet> --fees 5555usei -y
+
+Wallet list:
+seid keys list
+
+Account key:
+seid keys show <name_wallet> --bech acc
+
+Validator key:
+seid keys show <name_wallet> --bech val
+
+Consensus key:
+seid keys show <name_wallet> --bech cons
+
+Account:
+seid q auth account $(quicksilverd keys show <name_wallet> -a) -o text
+
+Delite wallet:
+seid keys delete <name_wallet>
+
+
+Update:
+cd seid
+git pull
+git checkout ...
+make install
+
+Delite node:
+sudo systemctl stop seid && \
+sudo systemctl disable seid && \
+rm /etc/systemd/system/seid.service && \
+sudo systemctl daemon-reload && \
+cd $HOME && \
+rm -rf .sei .sei-chain sei-chain && \
+rm -rf $(which seid)
+
+Proposals list
+seid q gov proposals
+
+Proposal result:
+seid q gov proposals --voter <ADDRESS>
+
+Proposal vote:
+seid tx gov vote 1 yes --from <name_wallet> --fees 5550usei
+
+Proposal deposit:
+seid tx gov deposit 1 1000000usei --from <name_wallet> --fees 5550usei
+
+Active set of validators:
+seid q staking validators -o json --limit=1000 \
+| jq '.validators[] | select(.status=="BOND_STATUS_BONDED")' \
+| jq -r '.tokens + " - " + .description.moniker' \
+| sort -gr | nl
+
+Inactive set of validators:
+seid q staking validators -o json --limit=1000 \
+| jq '.validators[] | select(.status=="BOND_STATUS_UNBONDED")' \
+| jq -r '.tokens + " - " + .description.moniker' \
+| sort -gr | nl
+Peers
+
+Peers:
+curl -s http://localhost:26657/net_info | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):\(.node_info.listen_addr | split(":")[2])"' | wc -l
+
+Connecting peers:
+curl -s http://localhost:26657/net_info | jq '.result.peers[].node_info.moniker'
+
+Vote power:
+curl -s localhost:26657/consensus_state | jq '.result.round_state.height_vote_set[0].prevotes_bit_array'
+
+Address TX`s
+seid q txs --events transfer.sender=<ADDRESS> 2>&1 | jq | grep txhash
+
+Income TX`s
+seid q txs --events transfer.recipient=<ADDRESS> 2>&1 | jq | grep txhash
+
+ID@IP:PORT
+echo "$(seid tendermint show-node-id)@$(curl ifconfig.me):26656"
