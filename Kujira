@@ -349,3 +349,5 @@ rm /etc/systemd/system/kujira* -rf
 rm $(which kujirad) -rf
 rm $HOME/.kujira* -rf
 rm $HOME/kujira-core -rf
+
+06/16/22 Go to a new stage of the harpoon-4 testnet, nodes were updated, validators were created.
