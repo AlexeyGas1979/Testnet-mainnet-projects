@@ -1,0 +1,75 @@
+wget -q -O quai.sh https://api.nodes.guru/quai.sh && chmod +x quai.sh && sudo /bin/bash quai.sh
+
+Logs
+tail -f $HOME/go-quai/nodelogs/prime.log
+Проверить логи в регионе 1:
+
+tail -f $HOME/go-quai/nodelogs/region-1.log
+tail -f $HOME/go-quai/nodelogs/region-2.log
+tail -f $HOME/go-quai/nodelogs/region-3.log
+Посмотреть статистику вашей ноды вы можете на сайте.
+Пожалуйста, заполните эту форму, чтобы получить вознаграждение Mainnet $QUAI за надежную работу майнеров или узлов в сети Quai во время тестовой сети.
+
+
+$HOME/go-quai/build/bin/quai attach $HOME/.quai/prime/geth.ipc
+personal.newAccount()
+personal.listAccounts
+eth.getBalance("YOUR_WALLET")
+
+$HOME/go-quai/build/bin/quai attach $HOME/.quai/region1/geth.ipc
+personal.newAccount()
+exit
+
+$HOME/go-quai/build/bin/quai attach $HOME/.quai/region2/geth.ipc
+personal.newAccount()
+exit
+
+$HOME/go-quai/build/bin/quai attach $HOME/.quai/region3/geth.ipc
+personal.newAccount()
+exit
+
+$HOME/go-quai/build/bin/quai attach $HOME/.quai/region1/zone1/geth.ipc
+personal.newAccount()
+exit
+
+Start miner
+nano $HOME/go-quai/network.env
+
+cd $HOME/quai-manager/ && make stop
+cd $HOME/go-quai/ && make stop
+cd $HOME/go-quai/ && make run-full-mining
+cd $HOME/quai-manager/ && make run-mine-background region=1 zone=1
+
+Miner Logs
+tail -f $HOME/quai-manager/logs/manager.log
+Дополнительно
+
+Start node
+cd $HOME/go-quai/ && make run-full-node
+
+Stop node
+cd $HOME/go-quai/ && make stop
+
+Stop miner
+cd $HOME/go-quai/ && make stop 
+cd $HOME/quai-manager/ && make stop
+
+Update node
+cd $HOME/go-quai/ && make stop
+git pull
+make go-quai
+make run-full-node
+
+Update miner
+cd $HOME/quai-manager/ && make stop
+git pull
+cd $HOME/go-quai/ && make stop
+git pull
+make go-quai
+cd $HOME/go-quai/ && make run-full-mining
+cd $HOME/quai-manager/ && make run-mine-background
+
+Del
+cd $HOME/go-quai/ && make stop 
+cd $HOME/quai-manager/ && make stop
+cd $HOME && rm -rf go-quai quai-manager
