@@ -33,6 +33,7 @@ KillSignal=SIGHUP
 WorkingDirectory=$HOME/subquery-indexer
 ExecStart=`which docker-compose` up -d
 
+Public Testnet (Phase 3)
 [Install]
 WantedBy=multi-user.target" > /etc/systemd/system/subquery.service
 ⠀Запускаем service
