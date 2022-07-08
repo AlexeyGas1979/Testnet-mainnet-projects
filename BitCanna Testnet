@@ -109,3 +109,97 @@ sudo service cosmovisor
 stop sudo service cosmovisor start 
 
 bcnad tx slashing unjail --from UCrypto --chain-id bitcanna-1 --gas auto --gas-adjustment 1.5 --gas-prices 0.025ubcna
+
+
+Cosmovisor setup guide for bitcanna-dev-4.
+cd ~
+wget https://github.com/cosmos/cosmos-sdk/releases/download/cosmovisor%2Fv1.1.0/cosmovisor-v1.1.0-linux-amd64.tar.gz
+sha256sum cosmovisor-v1.1.0-linux-amd64.tar.gz
+It must return: 9a6eb658404f28a3607a3d531821ca4a6501749aa483698847155f362e66859d
+
+tar -xf cosmovisor-v1.1.0-linux-amd64.tar.gz
+rm cosmovisor-v1.1.0-linux-amd64.tar.gz
+chmod +x cosmovisor
+sudo mv cosmovisor /usr/local/bin
+
+git clone https://github.com/cosmos/cosmos-sdk.git
+cd cosmos-sdk
+git checkout cosmovisor/v1.1.0
+make cosmovisor
+The previous action builds Cosmovisor in the /cosmovisor directory, now let's move it to the system's PATH:
+
+sudo mv cosmovisor/cosmovisor /usr/local/bin
+
+mkdir -p ${HOME}/.bcna/cosmovisor/genesis/bin
+mkdir -p ${HOME}/.bcna/cosmovisor/upgrades/ruderalis/bin
+
+cp $(which bcnad) ${HOME}/.bcna/cosmovisor/genesis/bin/
+
+ln -s -T ${HOME}/.bcna/cosmovisor/genesis ${HOME}/.bcna/cosmovisor/current
+To check if everything is OK, run:
+ls .bcna/cosmovisor/ -lh
+
+lrwxrwxrwx 1 user user   35 Jan 14 20:16 current -> /home/user/.bcna/cosmovisor/genesis
+drwxrwxr-x 3 user user 4.0K Jan 14 20:09 genesis
+drwxrwxr-x 4 user user 4.0K Jan 14 20:15 upgrades
+
+echo "[Unit]
+Description=Cosmovisor BitCanna Service
+After=network-online.target
+
+[Service]
+User=${USER}
+Environment=DAEMON_NAME=bcnad
+Environment=DAEMON_RESTART_AFTER_UPGRADE=true
+Environment=DAEMON_HOME=${HOME}/.bcna
+ExecStart=$(which cosmovisor) start
+Restart=always
+RestartSec=3
+LimitNOFILE=4096
+[Install]
+WantedBy=multi-user.target
+" >cosmovisor.service
+
+sudo mv cosmovisor.service /lib/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl stop bcnad.service && sudo systemctl disable bcnad.service 
+sudo systemctl enable cosmovisor.service && sudo systemctl start cosmovisor.service
+
+sudo journalctl -u cosmovisor -f
+Step 3. Finish the installation
+
+nano $HOME/.profile
+
+export DAEMON_NAME=bcnad
+export DAEMON_RESTART_AFTER_UPGRADE=true
+export DAEMON_HOME=${HOME}/.bcna
+
+PATH="${HOME}/.bcna/cosmovisor/current/bin:$PATH" 
+
+export DAEMON_DATA_BACKUP_DIR=${HOME}/your_chain_backup
+Reload the config of the .profile file.
+source .profile
+
+ cosmovisor run version
+
+
+sudo rm /usr/local/bin/bcnad  #or wherever you have it
+
+cd ~
+rm -rf bcnad
+wget -nc https://github.com/BitCannaGlobal/bcna/releases/download/v.1.3.1-pre/bcnad
+
+sha256sum ./bcnad
+
+chmod +x bcnad
+./bcnad version
+
+mv ./bcnad ${HOME}/.bcna/cosmovisor/upgrades/ruderalis/bin/
+
+Start the service: sudo service cosmovisor start
+
+Stop the service: sudo service cosmovisor stop
+
+Restart the service: sudo service cosmovisor restart
+
+Check the logs: sudo journalctl -u cosmovisor -f
