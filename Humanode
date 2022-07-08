@@ -1,0 +1,18 @@
+ls
+binaries       chainspec.json
+ls binaries/
+
+sudo install -m 0755 "./binaries/$(uname -s)-$(uname -m)/humanode-peer" /usr/local/bin
+humanode-peer key generate
+
+humanode-peer key insert --key-type aura --suri "$SECRET_PHRASE" --chain chainspec.json
+
+humanode-peer key insert --key-type aura --suri "behind cube stock matrix proof warfare retreat front eagle enemy genre later" --chain chainspec.json
+
+./ngrok http --bind-tls true 9933
+
+Registration (enrollment):
+humanode-peer --name "$NAME" --validator --chain chainspec.json --rpc-url-ngrok-detect --rpc-cors all --bioauth-enroll
+humanode-peer --name "$NAME" --validator --chain chainspec.json --rpc-url "$RPC_URL" --rpc-cors all --bioauth-enroll
+humanode-peer --name "ikarisinji" --validator --chain chainspec.json --rpc-url-ngrok-detect --rpc-cors all --bioauth-enroll
+humanode-peer --name "$NAME" --validator --chain chainspec.json --rpc-url-ngrok-detect --rpc-cors all
