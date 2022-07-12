@@ -1,0 +1,23 @@
+wget -q -O aptos.sh https://api.nodes.guru/aptos.sh && chmod +x aptos.sh && sudo /bin/bash aptos.sh
+
+Logs
+docker logs -f --tail 100 aptos-validator-1
+
+Restart
+cd ~/.aptos && docker-compose restart
+
+Stop:
+cd ~/.aptos && docker-compose stop
+
+State_sync metrics:
+curl 127.0.0.1:9101/metrics 2> /dev/null | grep aptos_state_sync_version
+
+Form data:
+source ~/.bash_profile
+cat ~/.aptos/$APTOS_NODENAME.yaml
+
+TCP port: 80, 6180, 6181, 6182, 9101
+
+Remove:
+cd ~/.aptos && docker-compose down -v
+rm -rf ~/.aptos /opt/aptos
