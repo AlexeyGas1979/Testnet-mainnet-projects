@@ -250,3 +250,43 @@ echo "$(seid tendermint show-node-id)@$(curl ifconfig.me):26656"
 07/04/22 The network does not work - on prevention.
 07/11/22 PR gentx sent.
 07/12/22 Genesis has not yet been given. Nodes launched.
+
+Testnet — atlantic-1:
+wget -O sei.sh https://raw.githubusercontent.com/kj89/testnet_manuals/main/sei/sei.sh && chmod +x sei.sh && ./sei.sh
+
+Create wallet:
+seid keys add $WALLET
+
+Recover your wallet using seed phrase
+seid keys add $WALLET --recover
+
+List of wallets:
+seid keys list
+
+Save wallet info:
+SEI_WALLET_ADDRESS=$(seid keys show $WALLET -a)
+SEI_VALOPER_ADDRESS=$(seid keys show $WALLET --bech val -a)
+echo 'export SEI_WALLET_ADDRESS='${SEI_WALLET_ADDRESS} >> $HOME/.bash_profile
+echo 'export SEI_VALOPER_ADDRESS='${SEI_VALOPER_ADDRESS} >> $HOME/.bash_profile
+source $HOME/.bash_profile
+
+Create your validator:
+seid tx staking create-validator \
+  --amount 1000000usei \
+  --from $WALLET \
+  --commission-max-change-rate "0.01" \
+  --commission-max-rate "0.2" \
+  --commission-rate "0.07" \
+  --min-self-delegation "1" \
+  --pubkey  $(seid tendermint show-validator) \
+  --moniker $NODENAME \
+  --chain-id $SEI_CHAIN_ID
+  
+  Edit validator:
+seid tx staking edit-validator \
+  --moniker=$NODENAME \
+  --identity=<your_keybase_id> \
+  --website="<your_website>" \
+  --details="<your_validator_description>" \
+  --chain-id=$SEI_CHAIN_ID \
+  --from=$WALLET
