@@ -74,3 +74,9 @@ We conduct an external third-party security audit.
 23.06.22 Node update
 We continue
 Gear team have the devs tasks.
+
+Update the node with the new version:
+wget https://builds.gear.rs/gear-nightly-linux-x86_64.tar.xz
+sudo tar -xvf gear-nightly-linux-x86_64.tar.xz -C /root
+rm gear-nightly-linux-x86_64.tar.xz
+sudo systemctl restart gear-node
