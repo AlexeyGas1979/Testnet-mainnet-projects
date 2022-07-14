@@ -22,12 +22,5 @@ Started testnet 3 "Ramiel".
 https://gitbook.humanode.io/testnet3-early-access/?1
 
 Create a file under a given path with the following content.
-Linux
-~/.config/humanode-launcher/repos.d/testnet3.yaml
-macOS
-~/Library/Application\ Support/humanode-launcher/repos.d/testnet3.yaml
-Windows
-%APPDATA%/humanode-launcher/repos.d/testnet3.yaml
 
-repoUrls:
-  - url: "https://manifests.launcher.humanode.io/testnet3-early-access-mfld7qsi.yml"
+~/.config/humanode-launcher/repos.d/testnet3.yaml
