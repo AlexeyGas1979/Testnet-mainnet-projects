@@ -183,6 +183,6 @@ docker-compose down -v
 cd $HOME && rm -rf $HOME/subspace/ 
 
 The testnet continues. Now a new stage of the stress test with node memory
-Slight difficulty filling memory. We solve this issue.
+Slight difficulty filling memory. We solve this issue. Solved.
 
 On 06/27/22 Gemini Phase 1 officially ended at 17:00 UTC. We are waiting for the next. stage.
