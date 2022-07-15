@@ -292,3 +292,5 @@ seid tx staking edit-validator \
   --from=$WALLET
 
 07/13/22 Validator have been created.
+
+Inactive... While.
