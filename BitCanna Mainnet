@@ -59,3 +59,4 @@ gpg -o validator_key.tar.gz.gpg -ca validator_key.tar.gz
 rm validator_key.tar.gz
 
 bcnad keys export MyFisrstAddress
+We continue...
