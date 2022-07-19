@@ -1,0 +1,156 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install curl build-essential git wget jq make gcc tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev -y
+curl -sL yabs.sh | bash -s — -ig
+curl -sL yabs.sh | bash -s — -fg
+
+Go
+ver="1.18.1" && \
+wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz" && \
+sudo rm -rf /usr/local/go && \
+sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz" && \
+rm "go$ver.linux-amd64.tar.gz" && \
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile && \
+source $HOME/.bash_profile && \
+go version
+
+Binare
+git clone https://github.com/TERITORI/teritori-chain && cd teritori-chain
+git checkout teritori-testnet-v2
+make install
+
+teritorid version --long | head
+# version:
+# commit: 
+
+Init
+teritorid init <name_moniker> --chain-id teritori-testnet-v2
+
+Genesis
+
+wget -O $HOME/.teritorid/config/genesis.json "https://raw.githubusercontent.com/TERITORI/teritori-chain/teritori-testnet-v2/genesis/genesis.json"
+sha256sum ~/.teritorid/config/genesis.json
+# b9d9f4abcac2bb8153d19df36fcde2ec09b61baa2243cc512b37baa38194a09d
+
+Validator:
+cd && cat .teritorid/data/priv_validator_state.json
+{
+  "height": "0",
+  "round": 0,
+  "step": 0
+}
+
+teritorid tendermint unsafe-reset-all --home $HOME/.teritorid
+
+Addr book
+#wget -O $HOME/.teritorid/config/addrbook.json ""
+
+Config
+teritorid config chain-id teritori-testnet-v2
+#teritorid config keyring-backend os
+sed -i.bak -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0utori\"/;" ~/.teritorid/config/app.toml
+external_address=$(wget -qO- eth0.me)
+sed -i.bak -e "s/^external_address *=.*/external_address = \"$external_address:26656\"/" $HOME/.teritorid/config/config.toml
+
+peers="0dde2ae55624d822eeea57d1b5e1223b6019a531@176.9.149.15:26656,4d2ea61e6195ee4e449c1e6132cabce98f7d94e1@5.9.40.222:26656,bceb776975aab62bcfd501969c0e1a2734ed7c2e@176.9.19.162:26656"
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$peers\"/" $HOME/.teritorid/config/config.toml
+
+#bpeers=""
+#sed -i.bak -e "s/^bootstrap-peers *=.*/bootstrap-peers = \"$bpeers\"/" $HOME/.teritorid/config/config.toml
+
+Seeds=""
+sed -i.bak -e "s/^seeds =.*/seeds = \"$seeds\"/" $HOME/.teritorid/config/config.toml
+sed -i 's/max_num_inbound_peers =.*/max_num_inbound_peers = 100/g' $HOME/.teritorid/config/config.toml
+sed -i 's/max_num_outbound_peers =.*/max_num_outbound_peers = 100/g' $HOME/.teritorid/config/config.toml
+
+Pruning
+pruning="custom" && \
+pruning_keep_recent="100" && \
+pruning_keep_every="0" && \
+pruning_interval="50" && \
+sed -i -e "s/^pruning *=.*/pruning = \"$pruning\"/" $HOME/.teritorid/config/app.toml && \
+sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"$pruning_keep_recent\"/" $HOME/.teritorid/config/app.toml && \
+sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every\"/" $HOME/.teritorid/config/app.toml && \
+sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/.teritorid/config/app.toml
+
+indexer="null" && \
+sed -i -e "s/^indexer *=.*/indexer = \"$indexer\"/" $HOME/.teritorid/config/config.toml
+
+snapshot_interval=1000 && \
+sed -i.bak -e "s/^snapshot-interval *=.*/snapshot-interval = \"$snapshot_interval\"/" ~/.teritorid/config/app.toml
+
+# config.toml
+sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:36658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:36657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:6061\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:36656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":36660\"%" $HOME/.teritorid/config/config.toml
+
+# app.toml
+sed -i.bak -e "s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:9190\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:9191\"%" $HOME/.teritorid/config/app.toml
+
+# client.toml
+sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:36657\"%" $HOME/.teritorid/config/client.toml
+
+external_address=$(wget -qO- eth0.me)
+sed -i.bak -e "s/^external_address *=.*/external_address = \"$external_address:36656\"/" $HOME/.teritorid/config/config.toml
+
+State Sync
+
+Если необходимо, то перекидываем wasm в каталог data
+
+Вводим команды по очереди
+
+SNAP_RPC=167.235.78.2:26657
+
+LATEST_HEIGHT=$(curl -s $SNAP_RPC/block | jq -r .result.block.header.height); \
+BLOCK_HEIGHT=$((LATEST_HEIGHT - 1000)); \
+TRUST_HASH=$(curl -s "$SNAP_RPC/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
+
+echo $LATEST_HEIGHT $BLOCK_HEIGHT $TRUST_HASH
+
+sed -i.bak -E "s|^(enable[[:space:]]+=[[:space:]]+).*$|\1true| ; \
+s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC,$SNAP_RPC\"| ; \
+s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
+s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"| ; \
+s|^(seeds[[:space:]]+=[[:space:]]+).*$|\1\"\"|" $HOME/.teritorid/config/config.toml
+
+Service file
+sudo tee /etc/systemd/system/teritorid.service > /dev/null <<EOF
+[Unit]
+Description=teritorid
+After=network-online.target
+
+[Service]
+User=$USER
+ExecStart=$(which teritorid) start
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo systemctl daemon-reload && \
+sudo systemctl enable teritorid && \
+sudo systemctl restart teritorid && sudo journalctl -u teritorid -f -o cat
+
+Add peers:
+sudo systemctl stop teritorid
+rm $HOME/.teritorid/config/addrbook.json
+teritorid tendermint unsafe-reset-all --home $HOME/.teritorid
+sudo systemctl restart teritorid && journalctl -u teritorid -f -o cat
+
+Wallet:
+teritorid keys add <name_wallet> --keyring-backend os
+teritorid keys add <name_wallet> --recover --keyring-backend os
+teritorid keys add <name_wallet> --ledger 
+
+Create-validator:
+teritorid tx staking create-validator \
+--chain-id teritori-testnet-v2 \
+--commission-rate 0.05 \
+--commission-max-rate 0.2 \
+--commission-max-change-rate 0.1 \
+--min-self-delegation "1000000" \
+--amount 1000000utori \
+--pubkey $(teritorid tendermint show-validator) \
+--moniker "<name_moniker>" \
+--from <name_wallet> \
+--fees 555utori
+
