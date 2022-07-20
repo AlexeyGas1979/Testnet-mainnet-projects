@@ -3,3 +3,5 @@ journalctl -u portad -f
 curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://127.0.0.1:9937 | jq .result | sed 's/"//g'
 
 Testnet successful. We poured 37.5 $KIAN, went into a steak.
+
+Porta is SCUM. :(
