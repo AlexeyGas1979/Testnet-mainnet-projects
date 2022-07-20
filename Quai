@@ -75,5 +75,3 @@ cd $HOME/quai-manager/ && make stop
 cd $HOME && rm -rf go-quai quai-manager
 
 The testnet is over. The next testnet is scheduled for June 15th.
-
-Ок.
