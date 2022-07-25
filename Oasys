@@ -19,5 +19,3 @@ rm /etc/systemd/system/oasysd.service
 Ports:
 TCP/UDP port 30303
 TCP port 8545
-
-Testnet continues...
