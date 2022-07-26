@@ -23,5 +23,3 @@ cd ~/.aptos && docker-compose down -v
 rm -rf ~/.aptos /opt/aptos
 
 07/12/22 Start Aptos Incentivized Testnet 2.
-
-We continue...
