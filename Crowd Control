@@ -1,0 +1,148 @@
+sudo apt update && sudo apt upgrade -y
+
+sudo apt install curl build-essential git wget jq make gcc tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev -y
+
+curl -sL yabs.sh | bash -s — -ig
+
+curl -sL yabs.sh | bash -s — -fg
+
+ver="1.18.1" && \
+wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz" && \
+sudo rm -rf /usr/local/go && \
+sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz" && \
+rm "go$ver.linux-amd64.tar.gz" && \
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile && \
+source $HOME/.bash_profile && \
+go version
+
+#git clone https://github.com/DecentralCardGame/Cardchain && cd Cardchain
+#git checkout latest
+#make install
+curl https://get.ignite.com/DecentralCardGame/Cardchain@latest! | sudo bash
+
+Cardchain version --long | head
+# version: latest-bf2b2b7b
+# commit: bf2b2b7b07a9fd32ae68f9b72f1d83f608735b5b
+
+Cardchain init <name_moniker> --chain-id Cardchain
+
+wget -O $HOME/.Cardchain/config/genesis.json "https://raw.githubusercontent.com/DecentralCardGame/Testnet1/main/genesis.json"
+
+sha256sum ~/.Cardchain/config/genesis.json
+# 144b5bfb1d63d8787f2300cf50dab6ce1f19524710bc9bc9b51f8d1fd82e517e
+
+cd && cat .Cardchain/data/priv_validator_state.json
+{
+  "height": "0",
+  "round": 0,
+  "step": 0
+}
+
+Cardchain unsafe-reset-all --home $HOME/.Cardchain
+
+#wget -O $HOME/.Cardchain/config/addrbook.json ""
+
+Cardchain config chain-id Cardchain
+
+#Cardchain config keyring-backend os
+
+sed -i.bak -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.001ubpf\"/;" ~/.Cardchain/config/app.toml
+
+external_address=$(wget -qO- eth0.me)
+sed -i.bak -e "s/^external_address *=.*/external_address = \"$external_address:26656\"/" $HOME/.Cardchain/config/config.toml
+
+peers="61f05a01167b1aec59275f74c3d7c3dc7e9388d4@45.136.28.158:26658,8776166bdb78b5f16309ef4ed690c0000d4a3851@138.201.139.175:21206,fc228f6b9ebc388ecb034bfe607b6c779b2c3e7f@144.76.97.251:26786"
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$peers\"/" $HOME/.Cardchain/config/config.toml
+
+#bpeers=""
+#sed -i.bak -e "s/^bootstrap-peers *=.*/bootstrap-peers = \"$bpeers\"/" $HOME/.Cardchain/config/config.toml
+
+seeds=""
+sed -i.bak -e "s/^seeds =.*/seeds = \"$seeds\"/" $HOME/.Cardchain/config/config.toml
+
+sed -i 's/max_num_inbound_peers =.*/max_num_inbound_peers = 100/g' $HOME/.Cardchain/config/config.toml
+sed -i 's/max_num_outbound_peers =.*/max_num_outbound_peers = 100/g' $HOME/.Cardchain/config/config.toml
+
+pruning="custom" && \
+pruning_keep_recent="100" && \
+pruning_keep_every="0" && \
+pruning_interval="50" && \
+sed -i -e "s/^pruning *=.*/pruning = \"$pruning\"/" $HOME/.Cardchain/config/app.toml && \
+sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"$pruning_keep_recent\"/" $HOME/.Cardchain/config/app.toml && \
+sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every\"/" $HOME/.Cardchain/config/app.toml && \
+sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/.Cardchain/config/app.toml
+
+indexer="null" && \
+sed -i -e "s/^indexer *=.*/indexer = \"$indexer\"/" $HOME/.Cardchain/config/config.toml
+
+snapshot_interval=1000 && \
+sed -i.bak -e "s/^snapshot-interval *=.*/snapshot-interval = \"$snapshot_interval\"/" ~/.Cardchain/config/app.toml
+
+# config.toml
+sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:36658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:36657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:6061\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:36656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":36660\"%" $HOME/.Cardchain/config/config.toml
+
+# app.toml
+sed -i.bak -e "s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:9190\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:9191\"%" $HOME/.Cardchain/config/app.toml
+
+# client.toml
+sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:36657\"%" $HOME/.Cardchain/config/client.toml
+
+external_address=$(wget -qO- eth0.me)
+sed -i.bak -e "s/^external_address *=.*/external_address = \"$external_address:36656\"/" $HOME/.Cardchain/config/config.toml
+
+SNAP_RPC=
+
+LATEST_HEIGHT=$(curl -s $SNAP_RPC/block | jq -r .result.block.header.height); \
+BLOCK_HEIGHT=$((LATEST_HEIGHT - 1000)); \
+TRUST_HASH=$(curl -s "$SNAP_RPC/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
+
+echo $LATEST_HEIGHT $BLOCK_HEIGHT $TRUST_HASH
+
+sed -i.bak -E "s|^(enable[[:space:]]+=[[:space:]]+).*$|\1true| ; \
+s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC,$SNAP_RPC\"| ; \
+s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
+s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"| ; \
+s|^(seeds[[:space:]]+=[[:space:]]+).*$|\1\"\"|" $HOME/.Cardchain/config/config.toml
+
+sudo tee /etc/systemd/system/Cardchain.service > /dev/null <<EOF
+[Unit]
+Description=Cardchain
+After=network-online.target
+
+[Service]
+User=$USER
+ExecStart=$(which Cardchain) start
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo systemctl daemon-reload && \
+sudo systemctl enable Cardchain && \
+sudo systemctl restart Cardchain && sudo journalctl -u Cardchain -f -o cat
+
+sudo systemctl stop Cardchain
+rm $HOME/.Cardchain/config/addrbook.json
+Cardchain unsafe-reset-all --home $HOME/.Cardchain
+
+sudo systemctl restart Cardchain && journalctl -u Cardchain -f -o cat
+
+Cardchain keys add <name_wallet> --keyring-backend os
+
+Cardchain keys add <name_wallet> --recover --keyring-backend os
+
+Cardchain keys add <name_wallet> --ledger 
+
+Cardchain tx staking create-validator \
+--chain-id Cardchain \
+--commission-rate 0.05 \
+--commission-max-rate 0.2 \
+--commission-max-change-rate 0.1 \
+--min-self-delegation "1000000" \
+--amount 4500000ubpf \
+--pubkey $(Cardchain tendermint show-validator) \
+--moniker "<name_moniker>" \
+--from <name_wallet> \
+--fees 300ubpf
