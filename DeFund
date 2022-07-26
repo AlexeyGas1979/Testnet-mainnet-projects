@@ -52,3 +52,5 @@ systemctl start defund && journalctl -u defund.service -f -o cat
 Remove old snapshot:
 cd ~/.defund/
 rm -rf data_old
+
+We continue...
