@@ -30,6 +30,3 @@ kill -9 [pid]
 Miner start - ./cell --miner 0xc667d55ebe9d65aaa330fb63027310bb9f1436ab51eebb0a064132702eda3406
 Faucet - curl 'http://bot.celllab.io/coin?address=12D3KooWKqmpXbFxTJJ1oGERBCa8rRs262hcMs2JaDo615ohFeQN'
 Working windows - screen -ls
-
-
-This project turned out to be a rekt: enterprising guys organized a miner for IronFish.
