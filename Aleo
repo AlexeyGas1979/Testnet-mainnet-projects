@@ -86,5 +86,3 @@ sudo systemctl enable aleou
 sudo systemctl restart aleou
 
 sudo journalctl -fn 100 -u aleou
-
-We were offered to enter the pool, it turned out that all the awards were taken by the founders of the pool. The testnet failed. The node is disabled.
