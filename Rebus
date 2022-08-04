@@ -1,0 +1,56 @@
+wget -q -O rebus.sh https://api.nodes.guru/rebus.sh && chmod +x rebus.sh && sudo /bin/bash rebus.sh
+source $HOME/.bash_profile
+
+Create a wallet, don’t forget to save the mnemonic.
+rebusd keys add wallet --coin-type 118 --algo secp256k1
+
+Get tokens in the discord, #test-faucet section.
+
+rebusd q bank balances YOUR_WALLET_ADDRESS
+
+Create a validator:
+rebusd tx staking create-validator \
+--moniker="$REBUS_NODENAME" \
+--amount=990000000000000000arebus \
+--fees 300arebus \
+--pubkey=$(rebusd tendermint show-validator) \
+--chain-id=reb_3333-1 \
+--commission-max-change-rate=0.01 \
+--commission-max-rate=0.20 \
+--commission-rate=0.10 \
+--min-self-delegation=1 \
+--from=wallet \
+--yes 
+
+Additional
+logs with the command:
+journalctl -u rebusd -f -o cat
+
+Restart node:
+systemctl restart rebusd
+
+Check your node status:
+curl localhost:26657/status
+
+Check node synchronization, if results false – node is synchronized
+curl -s localhost:26657/status | jq .result.sync_info.catching_up
+
+Get your valoper address:
+rebusd keys show wallet --bech val -a
+
+Bond more tokens (if you want increase your validator stake you should bond more to your valoper address):
+rebusd tx staking delegate YOUR_VALOPER_ADDRESS 10000000arebus --from wallet --chain-id reb_3333-1 --fees 5000arebus
+
+Active validators list:
+rebusd query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_BONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
+
+Inactive validators list:
+rebusd query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_UNBONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
+
+Ports used:
+26656, 26657, 9091, 9090, 6060, 1317
+
+Remove node:
+systemctl stop rebusd
+systemctl disable rebusd
+rm -rf ~/rebus ~/.rebusd /etc/systemd/system/rebusd.service
