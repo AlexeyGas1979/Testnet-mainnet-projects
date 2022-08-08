@@ -26,5 +26,3 @@ cat charon-distributed-validator-node/.charon/charon-enr-private-key
 
 Delite:
 rm -rf charon-distributed-validator-node
-
-We continue
