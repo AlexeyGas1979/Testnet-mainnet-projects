@@ -153,5 +153,3 @@ teritorid tx staking create-validator \
 --moniker "<name_moniker>" \
 --from <name_wallet> \
 --fees 555utori
-
-We continue
