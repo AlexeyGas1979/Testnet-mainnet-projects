@@ -87,5 +87,3 @@ geth attach ipc:$HOME/masa-node-v1.0/data/geth.ipc
 > eth.syncing
 > net.peerCount
 > admin.nodeInfo
-
-# CTRL+D to exit
