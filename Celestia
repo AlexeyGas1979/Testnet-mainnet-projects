@@ -59,5 +59,3 @@ sudo systemctl enable celestia-bridge
 sudo systemctl daemon-reload
 
 sudo systemctl restart celestia-bridge && journalctl -u celestia-bridge -o cat -f
-
-
