@@ -146,3 +146,5 @@ Cardchain tx staking create-validator \
 --moniker "<name_moniker>" \
 --from <name_wallet> \
 --fees 300ubpf
+
+
