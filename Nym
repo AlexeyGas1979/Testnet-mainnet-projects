@@ -30,5 +30,3 @@ sudo systemctl disable nym-mixnode
 rm -rf ~/nym ~/.nym
 rm -f /etc/systemd/system/nym-mixnode.service
 rm -f /usr/bin/nym-mixnode
-
-The testnet is extremely successful. Received allocations to CL, received tokens on the wallet. Thanks NYM
