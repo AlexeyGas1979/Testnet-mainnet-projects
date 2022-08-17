@@ -3,7 +3,8 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install curl build-essential git wget jq make gcc tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev -y
 
 curl -sL yabs.sh | bash -s — -ig
-# Disk Test
+
+Disk Test
 nvme smart-log /dev/nvme0
 nvme smart-log /dev/nvme1
 
@@ -148,7 +149,6 @@ seid q slashing signing-info $(seid tendermint show-validator)
 
 TX validator create:
 seid query txs --events='create_validator.validator=<your_valoper_address>' -o=json | jq .txs[0].txhash -r
-Транзакции
 
 Claim revards:
 seid tx distribution withdraw-rewards <valoper_address> --from <name_wallet> --fees 5555usei --commission -y
