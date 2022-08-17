@@ -74,3 +74,5 @@ Node info
 strided status 2>&1 | jq .SyncInfo
 strided status 2>&1 | jq .ValidatorInfo
 strided status 2>&1 | jq .NodeInfo
+
+We continue...
