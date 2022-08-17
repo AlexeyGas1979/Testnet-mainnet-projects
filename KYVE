@@ -242,7 +242,3 @@ sudo systemctl disable kyved
 rm -Rvf /usr/bin/kyve* $HOME/kyve
 sudo rm -v /etc/systemd/system/kyved.service && \
 sudo systemctl daemon-reload
-
-We need a lot of coins for pools, more than 10k, we don’t have such assets, we delete the node, the testnet continues. Now the stage is Karelia.
-
-03.06.22 The testnet stage has been completed. The next stage is Devnet, starting on 06/20/22.
