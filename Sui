@@ -1,0 +1,51 @@
+wget -O sui.sh https://raw.githubusercontent.com/kj89/testnet_manuals/main/sui/sui.sh && chmod +x sui.sh && ./sui.sh
+
+curl -s -X POST http://127.0.0.1:9000 -H 'Content-Type: application/json' -d '{ "jsonrpc":"2.0", "method":"rpc.discover","id":1}' | jq .result.info
+
+{
+  "title": "Sui JSON-RPC",
+  "description": "Sui JSON-RPC API for interaction with the Sui network gateway.",
+  "contact": {
+    "name": "Mysten Labs",
+    "url": "https://mystenlabs.com",
+    "email": "build@mystenlabs.com"
+  },
+  "license": {
+    "name": "Apache-2.0",
+    "url": "https://raw.githubusercontent.com/MystenLabs/sui/main/LICENSE"
+  },
+  "version": "0.1.0"
+}
+
+curl --location --request POST 'http://127.0.0.1:9000/' --header 'Content-Type: application/json' \
+--data-raw '{ "jsonrpc":"2.0", "id":1, "method":"sui_getRecentTransactions", "params":[5] }' | jq .
+
+curl --location --request POST 'http://127.0.0.1:9000/' --header 'Content-Type: application/json' \
+--data-raw '{ "jsonrpc":"2.0", "id":1, "method":"sui_getTransaction", "params":["<RECENT_TXN_FROM_ABOVE>"] }' | jq .
+
+JSON=$(sui client gas --json | jq -r)
+FIRST_OBJECT_ID=$(echo $JSON | jq -r .[0].id.id)
+SECOND_OBJECT_ID=$(echo $JSON | jq -r .[1].id.id)
+
+Status
+systemctl status suid
+
+Log
+journalctl -fu suid -o cat
+
+Version
+sui --version
+
+Update sui version
+wget -qO update.sh https://raw.githubusercontent.com/kj89/testnet_manuals/main/sui/tools/update.sh && chmod +x update.sh && ./update.sh
+
+Update sui version with database cleanup
+wget -qO update_db_cleanup.sh https://raw.githubusercontent.com/kj89/testnet_manuals/main/sui/tools/update_db_cleanup.sh && chmod +x update_db_cleanup.sh && ./update_db_cleanup.sh
+
+Recover your keys
+Copy your keys into $HOME/.sui/sui_config/ directory and restart the node
+
+Delete your node
+systemctl stop suid
+systemctl disable suid
+rm -rf $HOME/.sui /usr/local/bin/sui*
