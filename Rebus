@@ -54,3 +54,5 @@ Remove node:
 systemctl stop rebusd
 systemctl disable rebusd
 rm -rf ~/rebus ~/.rebusd /etc/systemd/system/rebusd.service
+
+We continue
