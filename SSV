@@ -35,3 +35,5 @@ $SSV_DB/config.yaml:/config.yaml -v $SSV_DB:/data -it \
 
 Logs:
 docker logs ssv_node --follow --tail=50
+
+We continue...
