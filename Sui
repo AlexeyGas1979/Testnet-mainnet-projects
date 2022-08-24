@@ -49,3 +49,6 @@ Delete your node
 systemctl stop suid
 systemctl disable suid
 rm -rf $HOME/.sui /usr/local/bin/sui*
+
+
+We continue...
