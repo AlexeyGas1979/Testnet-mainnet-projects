@@ -52,3 +52,5 @@ wget -O near-uninstall.sh idlex.ru/near-uninstall && chmod +x near-uninstall.sh 
 wget -O near-update.sh idlex.ru/near-update && chmod +x near-update.sh && ./near-update.sh
 
 wget -O near-old-update.sh idlex.ru/near-old-update && chmod +x near-old-update.sh && ./near-old-update.sh
+
+We continue...
