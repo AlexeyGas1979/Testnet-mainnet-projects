@@ -290,3 +290,5 @@ seid tx staking edit-validator \
   --details="<your_validator_description>" \
   --chain-id=$SEI_CHAIN_ID \
   --from=$WALLET
+
+
