@@ -1,6 +1,5 @@
 wget -q -O oasys.sh https://api.nodes.guru/oasys.sh && chmod +x oasys.sh && sudo /bin/bash oasys.sh
 
-
 Logs:
 journalctl -u oasysd -f
 
@@ -19,5 +18,6 @@ rm /etc/systemd/system/oasysd.service
 Ports:
 TCP/UDP port 30303
 TCP port 8545
+
 
 We continue...
