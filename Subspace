@@ -186,3 +186,67 @@ The testnet continues. Now a new stage of the stress test with node memory
 Slight difficulty filling memory. We solve this issue. Solved.
 
 On 06/27/22 Gemini Phase 1 officially ended at 17:00 UTC. We are waiting for the next. stage.
+
+Subspace | Gemini 2
+. <(wget -qO- https://raw.githubusercontent.com/letsnode/Utils/main/installers/docker.sh)
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/miscellaneous/ports_opening.sh) \ 30333
+⠀ Устанавливаем переменную названия ноды, которую вы будете использовать для поиска ноды в телеметрии:
+
+echo "export NODENAME="nodename"" >> ~/.bash_profile
+echo "export SUBSPACE_WALLET="wallet"" >> ~/.bash_profile
+source ~/.bash_profile
+
+mkdir subspace && cd subspace && touch docker-compose.yaml && nano docker-compose.yaml
+version: "3.7"
+services:
+  node:
+    image: ghcr.io/subspace/node:gemini-2a-2022-sep-10
+    volumes:
+      - node-data:/var/subspace:rw
+    ports:
+      - "0.0.0.0:30333:30333"
+    restart: unless-stopped
+    command: [
+      "--chain", "gemini-2a",
+      "--base-path", "/var/subspace",
+      "--execution", "wasm",
+      "--state-pruning", "archive",
+      "--port", "30333",
+      "--rpc-cors", "all",
+      "--rpc-methods", "safe",
+      "--unsafe-ws-external",
+      "--validator",
+      "--name", "$NODENAME"
+    ]
+    healthcheck:
+      timeout: 5s
+      interval: 30s
+      retries: 5
+
+  farmer:
+    depends_on:
+      node:
+        condition: service_healthy
+    image: ghcr.io/subspace/farmer:gemini-2a-2022-sep-10
+    volumes:
+      - farmer-data:/var/subspace:rw
+    ports:
+
+      - "0.0.0.0:40333:40333"
+    restart: unless-stopped
+    command: [
+      "--base-path", "/var/subspace",
+      "farm",
+      "--node-rpc-url", "ws://node:9944",
+      "--ws-server-listen-addr", "0.0.0.0:9955",
+      "--listen-on", "/ip4/0.0.0.0/tcp/40333",
+      "--reward-address", "$SUBSPACE_WALLET",
+      "--plot-size", "100G"
+    ]
+volumes:
+  node-data:
+  farmer-data:
+
+cd $HOME/subspace && docker-compose up -d
+
+docker-compose logs --tail=1000 -f
