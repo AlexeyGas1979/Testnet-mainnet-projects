@@ -35,3 +35,5 @@ sudo systemctl restart zeeka
 Посмотреть логи
 
 zeeka_log
+
+We continue...
