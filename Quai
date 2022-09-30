@@ -73,3 +73,5 @@ Del
 cd $HOME/go-quai/ && make stop 
 cd $HOME/quai-manager/ && make stop
 cd $HOME && rm -rf go-quai quai-manager
+
+
