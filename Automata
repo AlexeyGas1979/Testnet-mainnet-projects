@@ -11,3 +11,5 @@ docker run -it \
   --name <YOUR_NODE_NAME>
   docker ps -a
   docker logs --follow <YOUR_CONTAINER_ID>
+
+
