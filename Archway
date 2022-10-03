@@ -24,7 +24,6 @@ wget https://raw.githubusercontent.com/archway-network/testnets/main/torii-1/pen
 cp penultimate_genesis.json $HOMEDIR/config/genesis.json
 archwayd keys add <Имя_Валидатора> --home $HOMEDIR
 
-mnemonic
-
 archwayd add-genesis-account $(archwayd keys show <Ваше_имя_Валидатора> -a --home $HOMEDIR)  1001000utorii --home $HOMEDIR
 archwayd gentx <Ваше_имя_Валидатора> 1000000utorii --commission-rate 0.1 --commission-max-rate 0.1 --commission-max-change-rate 0.1 --pubkey $(archwayd tendermint show-validator --home $HOMEDIR) --chain-id torii-1
+
