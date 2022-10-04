@@ -147,6 +147,3 @@ Cardchain tx staking create-validator \
 --from <name_wallet> \
 --fees 300ubpf
 
-We continue...
-
-
