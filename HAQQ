@@ -120,5 +120,3 @@ haqqd tx slashing unjail --from $WALLET_NAME --chain-id $CHAIN
 
 We continue...
 
-
-
