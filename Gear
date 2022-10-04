@@ -79,5 +79,5 @@ rm gear-nightly-linux-x86_64.tar.xz
 sudo systemctl restart gear-node
 
 
-
 We continue...
+
