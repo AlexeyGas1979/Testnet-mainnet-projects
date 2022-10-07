@@ -67,5 +67,3 @@ cd $HOME/subquery-indexer && docker-compose restart; cd
 
 Stop
 cd $HOME/subquery-indexer && docker-compose down; cd
-
-
