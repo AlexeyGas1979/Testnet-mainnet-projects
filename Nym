@@ -30,3 +30,72 @@ sudo systemctl disable nym-mixnode
 rm -rf ~/nym ~/.nym
 rm -f /etc/systemd/system/nym-mixnode.service
 rm -f /usr/bin/nym-mixnode
+
+Nym mix node for the main network.
+
+wallet=YOUR_WALLET
+echo 'export wallet='$wallet >> $HOME/.bash_profile
+
+wget -O nym_mainnet.sh https://api.nodes.guru/nym_mainnet.sh && chmod +x nym_mainnet.sh && ./nym_mainnet.sh
+
+. $HOME/.bash_profile
+
+nym-mixnode node-details --id $node_id
+
+
+journalctl -u nym-mixnode -o cat | grep "Since startup mixed" 
+
+
+nym-mixnode describe --id $node_id
+systemctl restart nym-mixnode
+journalctl -u nym-mixnode -o cat | grep "Since startup mixed" | tail -1
+systemctl restart nym-mixnode
+
+
+wget -O nym_update.sh https://api.nodes.guru/nym_update.sh && chmod +x nym_update.sh && ./nym_update.sh
+
+wget -O nym_ulimit.sh https://api.nodes.guru/nym_ulimit.sh && chmod +x nym_ulimit.sh && ./nym_ulimit.sh
+
+echo "DefaultLimitNOFILE=65535" >> /etc/systemd/system.conf
+
+sudo systemctl daemon-reload
+
+sudo systemctl stop nym-mixnode
+
+sudo systemctl start nym-mixnode
+
+
+grep -i "Max open files" /proc/$(ps -A -o pid,cmd|grep nym-mixnode | grep -v grep |head -n 1 | awk '{print $1}')/limits
+
+curl http://v4v6.ipv6-test.com/api/myip.php && echo
+
+ping6 www.google.de
+
+hostname -I
+
+apt install snapd
+
+snap install base58
+
+ls -1 $HOME/.nym/mixnodes/*/data/public_identity.pem | while read F; do echo === $F ===; grep -v ^- $F | openssl base64 -A -d | base58; echo; done
+
+ls -1 $HOME/.nym/mixnodes/*/data/public_sphinx.pem | while read F; do echo === $F ===; grep -v ^- $F | openssl base64 -A -d | base58; echo; done
+
+Delite:
+sudo systemctl stop nym-mixnode
+
+sudo systemctl disable nym-mixnode
+
+rm -rf ~/nym ~/.nym
+
+rm -f /etc/systemd/system/nym-mixnode.service
+
+rm -f /usr/bin/nym-mixnode
+
+wget -q -O nyx.sh https://api.nodes.guru/nyx.sh && chmod +x nyx.sh && sudo /bin/bash nyx.sh && source ~/.bash_profile
+
+nyxd keys add wallet --recover
+
+nyxd tx wasm execute n14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sjyvg3g '{"undelegate_from_mixnode":{"mix_identity":"$IDENTITY"}}' --from wallet --fees=50000unym --chain-id nyx --broadcast-mode block --note "undelegating through NG" --node https://rpc-1.nyx.nodes.guru:443/ --gas=auto --gas-adjustment 1.4
+
+nyxd tx wasm execute n14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sjyvg3g '{"undelegate_from_mixnode":{"mix_identity":"HzBojijGgFWV7oPWnDRyL4ejEYsBjDfMYmaxC4uQhxrf"}}' --from wallet --fees=50000unym --chain-id nyx --broadcast-mode block --note "undelegating through NG" --node https://rpc-1.nyx.nodes.guru:443/ --gas=auto --gas-adjustment 1.4
