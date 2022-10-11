@@ -125,3 +125,6 @@ sudo rm /etc/systemd/system/nois* -rf
 sudo rm $(which noisd) -rf
 sudo rm $HOME/.noisd* -rf
 sudo rm $HOME/full-node -rf
+
+
+
