@@ -14,7 +14,3 @@ sudo docker-compose up -d
 
 Logs:
 sudo docker-compose logs -f
-
-We continue...
-
-
