@@ -64,7 +64,6 @@ sudo systemctl restart noisd
 
 source $HOME/.bash_profile
 
-
 noisd status 2>&1 | jq .SyncInfo
 
 noisd keys add wallet
@@ -86,7 +85,6 @@ curl --header "Content-Type: application/json" \
 
 noisd query bank balances <address>
 If your wallet does not show any balance than probably your node is still syncing. Please wait until it finish to synchronize and then continue
-
 
 noisd tx staking create-validator \
   --amount=99000000unois \
