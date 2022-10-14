@@ -117,7 +117,6 @@ empowerd tx staking edit-validator \
 --chain-id=$ECHAIN_ID \
 --fees=6000umpwr \
 --gas-adjustment="1"
-ПОЛЕЗНЫЕ КОМАНДЫ
 
 Sync:
 empowerd status 2>&1 | jq .SyncInfo
@@ -128,7 +127,7 @@ empowerd tx staking delegate $EVALOPER 1000000umpwr --from=$WALLET --fees=6000um
 unjail
 empowerd tx slashing unjail --from $WALLET --chain-id $ECHAIN_ID
 
-
+=
 Delite:
 sudo systemctl stop empowerd && sudo systemctl disable empowerd
 sudo rm -rf /etc/systemd/system/empowerd
@@ -137,10 +136,11 @@ sudo rm -rf $HOME/.empowerd
 sudo rm -rf $HOME/empowerchain
 sudo rm -rf $HOME/.empowerchain
 
-
 Addrbook:
 sudo systemctl stop empowerd
 empowerd tendermint unsafe-reset-all
 
 wget -qO $HOME/.empowerchain/config/addrbook.json "https://snapshots2-testnet.nodejumper.io/empower-testnet/addrbook.json"
 sudo systemctl restart empowerd
+
+
