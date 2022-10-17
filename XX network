@@ -83,5 +83,3 @@ sudo systemctl status xxnetwork-gateway.service
 sudo systemctl status xxnetwork-chain.service
 
 ps -A | grep xxnetwork
-
-We continue...
