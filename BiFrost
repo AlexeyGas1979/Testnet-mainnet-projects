@@ -1,0 +1,47 @@
+sudo -i
+cd $HOME
+
+apt update && apt install curl -y && apt purge docker docker-engine docker.io containerd docker-compose -y
+rm /usr/bin/docker-compose /usr/local/bin/docker-compose
+curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+systemctl restart docker
+curl -SL https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+mkdir -p /var/lib/bifrost-data
+
+docker run -d -p 30333:30333 -p 9933:9933 -v "/var/lib/bifrost-data:/data" --name "bifrost" thebifrost/bifrost-node:latest --base-path /data --chain /specs/bifrost-testnet.json --port 30333 --validator --state-cache-size 0 --runtime-cache-size 64 --telemetry-url "wss://telemetry-connector.testnet.thebifrost.io/submit 0" --name "CONTROLLER"
+
+Logs
+docker logs -f bifrost
+
+docker exec -it bifrost /bin/bash
+cd tools
+npm install
+npm install -g npm@8.19.2
+
+npm run set_session_keys -- \
+--controllerPrivate "YOUR_CONTROLLER_PRIVATE_KEY"
+
+npm run join_validators -- \
+  --controllerPrivate "YOUR_CONTROLLER_PRIVATE_KEY" \
+  --stashPrivate "YOUR_STASH_PRIVATE_KEY" \
+  --bond "50000"
+
+npm run join_validators -- \
+  --controllerPrivate "YOUR_CONTROLLER_PRIVATE_KEY" \
+  --stashPrivate "YOUR_STASH_PRIVATE_KEY" \
+  --relayerPrivate "YOUR_RELAYER_PRIVATE_KEY" \
+  --bond "100000"
+usefull commands
+
+restart
+docker restart bifrost
+
+logs
+docker logs -f bifrost
+
+delete node
+docker stop bifrost &&  sudo  docker  rm bifrost
+rm -rf /var/lib/bifrost-data
