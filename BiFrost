@@ -45,3 +45,4 @@ docker logs -f bifrost
 delete node
 docker stop bifrost &&  sudo  docker  rm bifrost
 rm -rf /var/lib/bifrost-data
+
