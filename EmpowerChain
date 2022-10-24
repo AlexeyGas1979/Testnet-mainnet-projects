@@ -142,5 +142,3 @@ empowerd tendermint unsafe-reset-all
 
 wget -qO $HOME/.empowerchain/config/addrbook.json "https://snapshots2-testnet.nodejumper.io/empower-testnet/addrbook.json"
 sudo systemctl restart empowerd
-
-
