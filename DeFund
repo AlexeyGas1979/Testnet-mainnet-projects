@@ -54,3 +54,51 @@ cd ~/.defund/
 rm -rf data_old
 
 
+
+Testnet2
+sudo apt update && sudo apt upgrade -y
+sudo apt install make clang pkg-config libssl-dev build-essential git gcc chrony curl jq ncdu bsdmainutils htop net-tools lsof fail2ban wget -y
+
+ver="1.19.1" && \
+wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz" && \
+sudo rm -rf /usr/local/go && \
+sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz" && \
+rm "go$ver.linux-amd64.tar.gz" && \
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile && \
+source $HOME/.bash_profile && \
+go version
+
+git clone https://github.com/defund-labs/defund
+cd defund
+git checkout v0.1.0-alpha
+make install
+cd $HOME
+
+DEFUND_MONIKER="your_name"
+DEFUND_CHAIN="defund-private-2"
+DEFUND_WALLET="your_name"
+
+echo 'export DEFUND_MONIKER='${DEFUND_MONIKER} >> $HOME/.bash_profile
+echo 'export DEFUND_CHAIN='${DEFUND_CHAIN} >> $HOME/.bash_profile
+echo 'export DEFUND_WALLET='${DEFUND_WALLET} >> $HOME/.bash_profile
+source $HOME/.bash_profile
+
+defundd init $DEFUND_MONIKER --chain-id $DEFUND_CHAIN
+defundd keys add $DEFUND_WALLET
+
+Recover
+defundd keys add $DEFUND_WALLET --recover
+
+DEFUND_ADDR=$(defundd keys show $DEFUND_WALLET -a)
+echo 'export DEFUND_ADDR='${DEFUND_ADDR} >> $HOME/.bash_profile
+source $HOME/.bash_profile
+
+defundd add-genesis-account $DEFUND_ADDR 100000000ufetf
+
+defundd gentx $DEFUND_WALLET 90000000ufetf \
+--chain-id defund-private-2 \
+--moniker=$DEFUND_MONIKER \
+--commission-max-change-rate=0.01 \
+--commission-max-rate=0.20 \
+--commission-rate=0.05
+
