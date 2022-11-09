@@ -1,0 +1,46 @@
+wget -q -O nibiru.sh https://api.nodes.guru/nibiru.sh && chmod +x nibiru.sh && sudo /bin/bash nibiru.sh
+source $HOME/.bash_profile
+
+nibid keys add wallet
+#faucet
+
+nibid q bank balances YOUR_WALLET_ADDRESS
+
+nibid tx staking create-validator \
+--amount=1000000unibi \
+--pubkey=$(nibid tendermint show-validator) \
+--moniker="$NIBIRU_NODENAME" \
+--chain-id=nibiru-testnet-1 \
+--commission-rate="0.01" \
+--commission-max-rate="0.10" \
+--commission-max-change-rate="0.01" \
+--min-self-delegation="1000000" \
+--fees=10000unibi \
+--from=wallet \
+-y
+
+Logs
+journalctl -u nibid -f
+
+Restart 
+systemctl restart nibid
+
+Status
+curl localhost:26657/status
+
+Sync
+curl -s localhost:26657/status | jq .result.sync_info.catching_up
+
+nibid keys show wallet --bech val -a
+
+nibid tx staking delegate YOUR_VALOPER_ADDRESS 10000000unibi --from wallet --chain-id nibiru-testnet-1 --fees 1000unibi
+
+nibid query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_BONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
+
+
+nibid query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_UNBONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
+
+Delite:
+systemctl stop nibid
+systemctl disable nibid
+rm -rf $(which nibid) ~/.nibid ~/nibiru
