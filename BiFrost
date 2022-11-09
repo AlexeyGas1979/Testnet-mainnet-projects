@@ -60,3 +60,16 @@ docker run -d --network host -v "/var/lib/bifrost-data:/data" --name "bifrost" t
   --state-cache-size 0 \
   --runtime-cache-size 64 \
   --name "YOUR_CONTROLLER_ADDRESS"
+
+Update:
+docker stop bifrost
+docker rm bifrost
+docker pull thebifrost/bifrost-node:v1.0.1
+docker run -d --network host -v "/var/lib/bifrost-data:/data" --name "bifrost" thebifrost/bifrost-node:v1.0.1 \
+  --base-path /data \
+  --chain /specs/bifrost-testnet.json \
+  --port 30333 \
+  --validator \
+  --state-cache-size 0 \
+  --runtime-cache-size 64 \
+  --name "YOUR_CONTROLLER_ADDRESS"
