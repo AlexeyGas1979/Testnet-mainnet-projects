@@ -37,8 +37,17 @@ nibid tx staking delegate YOUR_VALOPER_ADDRESS 10000000unibi --from wallet --cha
 
 nibid query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_BONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
 
-
 nibid query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_UNBONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
+
+Edit validator:
+nibid tx staking edit-validator \
+--identity=AA0F35AC5AFCD0C5 \
+--website=https://ucrypto.pro/ \
+--details=https://t.me/ucryptomedia \
+--chain-id=nibiru-testnet-1 \
+--fees=5000unibi \
+--from=wallet \
+-y
 
 Delite:
 systemctl stop nibid
