@@ -117,3 +117,5 @@ haqqd tx staking delegate $VALOPER 1000000aISLM --from $WALLET_NAME --chain-id $
 
 Ujail
 haqqd tx slashing unjail --from $WALLET_NAME --chain-id $CHAIN
+
+
