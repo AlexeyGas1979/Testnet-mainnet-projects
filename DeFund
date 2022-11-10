@@ -102,3 +102,5 @@ defundd gentx $DEFUND_WALLET 90000000ufetf \
 --commission-max-rate=0.20 \
 --commission-rate=0.05
 
+
+
