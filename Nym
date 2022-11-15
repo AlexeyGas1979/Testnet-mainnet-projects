@@ -99,6 +99,3 @@ nyxd keys add wallet --recover
 nyxd tx wasm execute n14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sjyvg3g '{"undelegate_from_mixnode":{"mix_identity":"$IDENTITY"}}' --from wallet --fees=50000unym --chain-id nyx --broadcast-mode block --note "undelegating through NG" --node https://rpc-1.nyx.nodes.guru:443/ --gas=auto --gas-adjustment 1.4
 
 nyxd tx wasm execute n14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sjyvg3g '{"undelegate_from_mixnode":{"mix_identity":"HzBojijGgFWV7oPWnDRyL4ejEYsBjDfMYmaxC4uQhxrf"}}' --from wallet --fees=50000unym --chain-id nyx --broadcast-mode block --note "undelegating through NG" --node https://rpc-1.nyx.nodes.guru:443/ --gas=auto --gas-adjustment 1.4
-
-
-
