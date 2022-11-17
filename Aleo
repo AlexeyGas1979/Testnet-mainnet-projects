@@ -86,3 +86,24 @@ sudo systemctl enable aleou
 sudo systemctl restart aleou
 
 sudo journalctl -fn 100 -u aleou
+
+Aleo testnet 3
+sudo apt update && sudo apt upgrade -y
+sudo apt install wget jq git build-essential pkg-config libssl-dev -y
+
+. <(wget -qO- https://raw.githubusercontent.com/letsnode/Utils/main/installers/rust.sh)
+git clone https://github.com/AleoHQ/snarkOS.git --depth 1
+
+cd snarkOS
+./build_ubuntu.sh
+./run-client.sh
+snarkos experimental $ACC_NAME
+
+ Attention - Remember
+  Private Key  APrivateKey1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  <-- Save Me
+     View Key  AViewKey1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  <-- Save Me
+      Address  aleo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  <-- Use Me For The Next Step
+
+./run-prover.sh
+Enter your Aleo prover address:
+aleo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
