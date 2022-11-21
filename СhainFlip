@@ -1,0 +1,25 @@
+wget -q -O chainflip.sh https://nodes.wenmoney.io/chainflip.sh && chmod +x chainflip.sh && sudo /bin/bash chainflip.sh
+1
+
+Logs:
+tail -f /var/log/chainflip-engine.log
+
+Sync, after again:
+wget -q -O chainflip.sh https://nodes.wenmoney.io/chainflip.sh && chmod +x chainflip.sh && sudo /bin/bash chainflip.sh
+2
+
+https://stake-perseverance.chainflip.io/
+
+After stake again:
+wget -q -O chainflip.sh https://nodes.wenmoney.io/chainflip.sh && chmod +x chainflip.sh && sudo /bin/bash chainflip.sh
+3
+
+Delite:
+Safe files /etc/chainflip/keys
+
+sudo systemctl stop chainflip-node && \
+sudo systemctl stop chainflip-engine && \
+rm -rf /etc/apt/keyrings && \
+rm -rf /etc/chainflip && \
+sudo systemctl disable chainflip-node && \
+sudo systemctl disable chainflip-engine
