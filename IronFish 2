@@ -25,5 +25,3 @@ journalctl -u ironfishd -f
 journalctl -u ironfishd-miner -f
 service ironfishd stop
 service ironfishd-miner stop
-
-
