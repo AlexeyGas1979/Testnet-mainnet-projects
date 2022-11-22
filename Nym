@@ -102,3 +102,4 @@ nyxd tx wasm execute n14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sjyvg3
 
 Update:
 wget -O nym_update.sh https://api.nodes.guru/nym_update.sh && chmod +x nym_update.sh && ./nym_update.sh
+
