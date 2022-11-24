@@ -1,0 +1,6 @@
+wget -q -O chainflip.sh https://nodes.wenmoney.io/chainflip.sh && chmod +x chainflip.sh && sudo /bin/bash chainflip.sh
+wget -q -O chainflip.sh https://nodes.wenmoney.io/chainflip.sh && chmod +x chainflip.sh && sudo /bin/bash chainflip.sh
+wget -q -O chainflip.sh https://nodes.wenmoney.io/chainflip.sh && chmod +x chainflip.sh && sudo /bin/bash chainflip.sh
+
+Update
+wget -q -O chainflip.sh https://nodes.wenmoney.io/chainflip.sh && chmod +x chainflip.sh && sudo /bin/bash chainflip.sh
