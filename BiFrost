@@ -73,5 +73,3 @@ docker run -d --network host -v "/var/lib/bifrost-data:/data" --name "bifrost" t
   --state-cache-size 0 \
   --runtime-cache-size 64 \
   --name "YOUR_CONTROLLER_ADDRESS"
-
-
