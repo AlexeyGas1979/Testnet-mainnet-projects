@@ -23,5 +23,3 @@ rm -rf /etc/apt/keyrings && \
 rm -rf /etc/chainflip && \
 sudo systemctl disable chainflip-node && \
 sudo systemctl disable chainflip-engine
-
-
