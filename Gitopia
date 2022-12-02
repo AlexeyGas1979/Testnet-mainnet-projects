@@ -131,3 +131,6 @@ sudo rm -rf /etc/systemd/system/gitopiad
 sudo rm -rf /usr/local/bin/gitopiad
 sudo rm -rf $HOME/.gitopia
 sudo rm -rf $HOME/gitopia
+
+
+
