@@ -17,11 +17,11 @@ rm -rf /usr/local/bin/pathfinder
 
 The testnet continues. Nodes updated
 
-Update v0.4.0
+Update v 0.4.2
 cd ~/pathfinder
 rustup update
 git fetch
-git checkout v0.4.0
+git checkout v0.4.2
 cargo build --release --bin pathfinder
 mv ~/pathfinder/target/release/pathfinder /usr/local/bin/
 cd py
@@ -30,7 +30,3 @@ PIP_REQUIRE_VIRTUALENV=true pip install -e .[dev]
 pip install --upgrade pip
 systemctl restart starknetd
 pathfinder -V
-
-Pathfinder v0.4.0
-
-
