@@ -1,0 +1,33 @@
+sudo systemctl enable docker
+
+ sudo mkdir -p /data/geth
+ sudo mkdir -p /data/lighthouse
+ sudo mkdir -p /data/jwt
+ sudo mkdir -p /data/operator
+
+openssl rand -hex 32 | tr -d "\n" | sudo tee /data/jwt/jwtsecret
+
+git clone --recurse-submodules https://github.com/ParaState/SafeStakeOperator.git dvf
+cd dvf
+cp .env.example .env
+
+Follow the document https://docs.infura.io/infura/
+Regiter a infura account
+Create new key
+infura step1
+
+Select goerli network
+infura step1
+
+Select Websocks
+infura step1
+
+Copy your WS_URL
+Or get your alchemy ws_url
+
+sudo docker compose -f  docker-compose-operator.yml up -d
+
+sudo docker compose -f docker-compose-operator.yml logs -f operator | grep "node public key"
+output
+
+/data/operator/prater/node_key.json
