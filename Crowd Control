@@ -147,4 +147,5 @@ Cardchain tx staking create-validator \
 --from <name_wallet> \
 --fees 300ubpf
 
+Testnet3
 git clone https://github.com/DecentralCardGame/Testnet && chmod +x ./Testnet/Cardchain_install.sh && chmod +x ./Testnet/Cardchain_create_validator.sh && chmod +x ./Testnet/Cardchain_remove.sh && ./Testnet/Cardchain_install.sh
