@@ -1,0 +1,70 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install wget jq git libssl-dev cmake mc -y
+
+sudo apt install curl build-essential gcc make -y
+curl https://sh.rustup.rs -sSf | sh -s — -y
+source ~/.cargo/env
+
+cd 
+git clone https://github.com/zeeka-network/bazuka 
+cd $HOME/bazuka
+git pull origin master
+cargo update 
+cargo install --path .
+
+ZEEKADISCORD=<Discordname>
+ZIESHAIP=`wget -qO- eth0.me`
+
+echo "export ZEEKADISCORD="${ZEEKADISCORD}"" >> $HOME/.bash_profile
+echo "export ZIESHAIP="${ZIESHAIP}"" >> $HOME/.bash_profile
+source $HOME/.bash_profile
+
+cd
+bazuka init --mnemonic 'your seed' --external $ZIESHAIP:8765 --network groth --bootstrap 65.108.193.133:8765
+
+mcedit $HOME/.bazuka.yaml
+
+sudo tee <<EOF >/dev/null /etc/systemd/system/ziesha.service
+[Unit]
+Description=Zeeka node
+After=network.target
+
+[Service]
+User=$USER
+ExecStart=`RUST_LOG=info which bazuka` node start --discord-handle "$ZEEKADISCORD"
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable ziesha
+sudo systemctl restart ziesha
+
+
+sudo journalctl -f -u ziesha
+
+bazuka node status
+
+bazuka wallet info
+
+http://65.108.193.133:8000/nodes
+
+Update
+sudo systemctl stop ziesha
+cd $HOME/bazuka
+git pull origin master
+cargo update
+cargo install --path .
+sudo systemctl restart ziesha
+sudo journalctl -f -u ziesha
+
+Delite
+sudo systemctl stop ziesha && sudo systemctl disable ziesha
+rm -rf $HOME/bazuka
+rm -rf $HOME/.bazuka*
+rm /etc/systemd/system/ziesha.service
+sudo systemctl daemon-reload
