@@ -35,3 +35,5 @@ Out of memory:
 systemctl stop starknetd
 rm -rf ~/pathfinder/
 wget -O starknet.sh https://api.nodes.guru/starknet.sh && chmod +x starknet.sh && ./starknet.sh
+
+
