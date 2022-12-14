@@ -158,3 +158,5 @@ Address Book
 updates every: 1h
 
 curl -s https://snapshots3-testnet.nodejumper.io/defund-testnet/addrbook.json > $HOME/.defund/config/addrbook.js
+
+
