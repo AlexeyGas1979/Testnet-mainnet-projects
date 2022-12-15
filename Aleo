@@ -107,3 +107,5 @@ snarkos experimental $ACC_NAME
 ./run-prover.sh
 Enter your Aleo prover address:
 aleo1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
