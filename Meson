@@ -11,8 +11,6 @@ wget -q -O meson.sh https://api.nodes.guru/meson.sh && chmod +x meson.sh && sudo
 sudo apt install ncdu
 ncdu /
 
-Miners are working.
-
 Telemetry:
 https://meson.network/terminalbalance
 
@@ -21,5 +19,3 @@ wget 'https://staticassets.meson.network/public/meson_cdn/v3.1.18/meson_cdn-linu
 set token and config
 sudo ./meson_cdn config set --token=vuueabcwpffemzcbuapudcpo --https_port=443 --cache.size=30
 sudo ./service start meson_cdn
-
-
