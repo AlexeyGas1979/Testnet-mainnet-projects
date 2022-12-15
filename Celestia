@@ -2,7 +2,7 @@ Install dependencies:
 sudo apt update && sudo apt upgrade -y
 sudo apt install curl tar wget clang pkg-config libssl-dev jq build-essential bsdmainutils git make ncdu -y
 
-Install GO 1.18.3
+GO 1.18.3
 cd $HOME
 ver="1.18.3"
 wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
@@ -144,6 +144,3 @@ celestia-appd tx staking create-validator \
 -y
 
 celestia-appd tx staking delegate [VALOPER_ADDRESS] [STAKE_AMOUNT]utia --from wallet --chain-id mamaki --fees 500utia 
-
-
-
