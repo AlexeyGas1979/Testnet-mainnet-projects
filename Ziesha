@@ -26,3 +26,11 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl daemon-reload && sudo systemctl enable ziesha && sudo systemctl restart ziesha && sudo journalctl -f -u ziesha
+
+Delite
+rm -rf .bazuka
+rm -rf .bazuka-groth
+rm -rf .bazuka.yaml
+rm -rf .cargo
+rm -rf .rustup
+rm -rf bazuka
