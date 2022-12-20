@@ -1,0 +1,53 @@
+wget -q -O nolus.sh https://api.nodes.guru/nolus.sh && chmod +x nolus.sh && sudo /bin/bash nolus.sh
+
+source $HOME/.bash_profile
+
+Create a wallet:
+nolusd keys add wallet
+Get tokens in the discord.
+
+After full synchronization, check the balance:
+nolusd q bank balances YOUR_WALLET_ADDRESS
+
+Create a validator:
+nolusd tx staking create-validator \
+--amount=1000000unls \
+--pubkey=$(nolusd tendermint show-validator) \
+--moniker="$NOLUS_NODENAME" \
+--chain-id=nolus-rila \
+--commission-rate="0.1" \
+--commission-max-rate="0.10" \
+--commission-max-change-rate="0.01" \
+--min-self-delegation="1000000" \
+--gas-prices 0.0042unls \
+--from=wallet \
+-y
+
+logs
+journalctl -u nolusd -f
+
+Restart
+systemctl restart nolusd
+
+status
+curl localhost:26657/status
+
+sync
+curl -s localhost:26657/status | jq .result.sync_info.catching_up
+
+valoper address
+nolusd keys show wallet --bech val -a
+
+stake
+nolusd tx staking delegate YOUR_VALOPER_ADDRESS 10000000unls --from wallet --chain-id nolus-rila --fees 5000unls
+
+Active validators list
+nolusd query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_BONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
+
+Inactive validators list
+nolusd query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_UNBONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
+
+Remove node
+systemctl stop nolusd
+systemctl disable nolusd
+rm -rf $(which nolusd) ~/.nolus ~/nolus-core
