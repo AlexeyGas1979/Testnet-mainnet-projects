@@ -133,14 +133,17 @@ celestia-appd q bank balances $(celestia-appd keys show wallet -a)
 celestia-appd tx staking create-validator \
 --amount=1000000utia \
 --pubkey=$(celestia-appd tendermint show-validator) \
---moniker="YOUR_VALIDATOR_MONIKER" \
---chain-id=mamaki \
---commission-rate=0.1 \
+--moniker=$CELESTIA_NODENAME \
+--chain-id=$CELESTIA_CHAIN \
+--commission-rate=0.05 \
 --commission-max-rate=0.2 \
---commission-max-change-rate=0.05 \
---min-self-delegation=1 \
---fees=2000utia \
---from=wallet \
--y
+--commission-max-change-rate=0.01 \
+--min-self-delegation=1000000 \
+--from=$CELESTIA_WALLET \
+--evm-address=$EVM_ADDRESS \
+--orchestrator-address=$ORCHESTRATOR_ADDRESS \
+--gas auto \
+--gas-adjustment 1.3 \
+--fees 1600utia
 
 celestia-appd tx staking delegate [VALOPER_ADDRESS] [STAKE_AMOUNT]utia --from wallet --chain-id mamaki --fees 500utia 
