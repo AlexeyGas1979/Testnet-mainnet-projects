@@ -1,0 +1,46 @@
+cd /root
+sudo apt update
+sudo apt install apt-transport-https ca-certificates software-properties-common curl
+curl -f -s -S -L https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+sudo systemctl status docker
+
+
+cd /root
+git clone https://github.com/exorde-labs/ExordeModuleCLI.git
+cd /root/ExordeModuleCLI
+git pull
+docker build -t exorde-cli .
+
+docker run -d --restart unless-stopped --pull always --name <YOUR_NAME> exordelabs/exorde-cli -m <YOUR_MAIN_ADDRESS> -l <LOGGING_LEVEL>
+
+YOUR_MAIN_ADDRESS - Ethereum MM adress
+YOUR_NAME - node name
+LOGGING - logs level
+
+Ex:
+docker run -d --restart unless-stopped --pull always --name exordelabs/exorde-cli -m 0xca3101Be4904B11cdd6C6967feE150aeF26Bb9a1 -l 2
+
+Container №
+docker ps -a
+
+Logs
+docker logs --follow Container id
+
+REWARDS
+docker logs --follow Container id -n 100 | grep "CURRENT REWARDS"
+
+docker stats 
+
+Stop
+docker stop id контейнера
+
+
+Delite
+docker stop Container id
+docker rm Container id
+
+restart
+docker restart Container id
