@@ -34,3 +34,4 @@ rm -rf .bazuka.yaml
 rm -rf .cargo
 rm -rf .rustup
 rm -rf bazuka
+
