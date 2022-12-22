@@ -32,7 +32,7 @@ docker logs --follow Container id
 REWARDS
 docker logs --follow Container id -n 100 | grep "CURRENT REWARDS"
 
-docker stats 
+docker stats
 
 Stop
 docker stop id контейнера
