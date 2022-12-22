@@ -1,0 +1,49 @@
+wget -q -O humansai.sh https://nodes.wenmoney.io/humansai.sh && chmod +x humansai.sh && ./humansai.sh
+
+source .bash_profile
+wallet="wallet"
+echo "export HUMANSAI_WALLET=$wallet" >> $HOME/.bash_profile
+
+source .bash_profile
+humansd keys add $HUMANSAI_WALLET --keyring-backend os
+
+HUMANSAI_ADDRESS=$(humansd keys show $HUMANSAI_WALLET -a --keyring-backend os)
+HUMANSAI_VALOPER=$(humansd keys show $HUMANSAI_WALLET --bech val -a --keyring-backend os)
+echo 'export HUMANSAI_ADDRESS='${HUMANSAI_ADDRESS} >> $HOME/.bash_profile
+echo 'export HUMANSAI_VALOPER='${HUMANSAI_VALOPER} >> $HOME/.bash_profile
+
+Balances:
+humansd query bank balances $HUMANSAI_ADDRESS
+
+humansd tx staking create-validator \
+--amount=9000000uheart \
+--pubkey=$(humansd tendermint show-validator) \
+--moniker=$HUMANSAI_NODENAME \
+--chain-id=$HUMANSAI_CHAIN_ID \
+--commission-rate=0.1 \
+--commission-max-rate=0.2 \
+--commission-max-change-rate=0.05 \
+--min-self-delegation=1 \
+--fees=10000uheart \
+--from=$HUMANSAI_WALLET \
+-y
+
+humansd tx staking delegate $HUMANSAI_VALOPER 1000000uheart --from $HUMANSAI_WALLET --keyring-backend os --chain-id=$HUMANSAI_CHAIN_ID --fees 1000uheart -y
+
+Delite:
+systemctl stop humansd && \
+systemctl disable humansd && \
+rm /etc/systemd/system/humansd.service && \
+systemctl daemon-reload && \
+cd $HOME && \
+rm -rf .humansd humansd  && \
+rm -rf $(which humansd)
+
+Sync
+humansd status 2>&1 | jq ."SyncInfo"."latest_block_height"
+
+Logs
+sudo journalctl -u humansd -f -o cat
+
+Gov
+humansd tx gov vote 1 yes --from $HUMANSAI_WALLET --keyring-backend os --fees 1000u
