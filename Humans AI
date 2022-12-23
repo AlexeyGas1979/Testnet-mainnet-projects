@@ -47,3 +47,5 @@ sudo journalctl -u humansd -f -o cat
 
 Gov
 humansd tx gov vote 1 yes --from $HUMANSAI_WALLET --keyring-backend os --fees 1000u
+
+
