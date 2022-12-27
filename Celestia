@@ -147,3 +147,5 @@ celestia-appd tx staking create-validator \
 --fees 1600utia
 
 celestia-appd tx staking delegate [VALOPER_ADDRESS] [STAKE_AMOUNT]utia --from wallet --chain-id mamaki --fees 500utia
+
+
