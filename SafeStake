@@ -66,3 +66,5 @@ sudo docker compose -f docker-compose-operator.yml logs -f operator | grep "node
 output
 
 /data/operator/prater/node_key.json
+
+
