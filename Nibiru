@@ -53,4 +53,3 @@ Delite:
 systemctl stop nibid
 systemctl disable nibid
 rm -rf $(which nibid) ~/.nibid ~/nibiru
-
