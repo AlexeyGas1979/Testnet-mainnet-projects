@@ -39,7 +39,7 @@ valoper address
 nolusd keys show wallet --bech val -a
 
 stake
-nolusd tx staking delegate YOUR_VALOPER_ADDRESS 10000000unls --from wallet --chain-id nolus-rila --fees 5000unls
+nolusd tx staking delegate YOUR_VALOPER_ADDRESS 10000000unls --from $WALLET_NOLUS --chain-id $CHAIN_ID_NOLUS --fees 500unls
 
 Active validators list
 nolusd query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_BONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
