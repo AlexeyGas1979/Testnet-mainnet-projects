@@ -34,8 +34,6 @@ sudo systemctl enable docker
 
 sudo mkdir -p /data/geth
  
- 
- 
 sudo mkdir -p /data/lighthouse
 sudo mkdir -p /data/jwt
 sudo mkdir -p /data/operator
