@@ -53,3 +53,15 @@ Delite:
 systemctl stop nibid
 systemctl disable nibid
 rm -rf $(which nibid) ~/.nibid ~/nibiru
+
+Upload:
+sudo systemctl stop nibid
+cd && rm -rf nibiru
+git clone https://github.com/NibiruChain/nibiru.git
+cd nibiru
+git checkout v0.16.3
+make build
+sudo mv build/nibid $(which nibid)
+nibid tendermint unsafe-reset-all --home $HOME/.nibid --keep-addr-book
+curl -o - -L https://snapshots.polkachu.com/testnet-snapshots/nibiru/nibiru_980005.tar.lz4 | lz4 -c -d - | tar -x -C $HOME/.nibid
+sudo systemctl restart nibid
