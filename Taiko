@@ -1,0 +1,45 @@
+sudo apt-get update
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+    
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg > /dev/null
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+
+Check^
+sudo docker run hello-world
+
+If this, when GOOOD!
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+git clone https://github.com/taikoxyz/simple-taiko-node.git
+cd simple-taiko-node
+cp .env.sample .env
+nano .env
+
+Changes:
+ENABLE_PROPOSER - false to true.
+PRIVATE_KEY вс - metamask pryvat key
+FEE_RECIPIENT  - metamask address
+
+Start:
+docker compose up -d
+
+Logs:
+docker compose logs -f
+
+Faucets:
+https://l1faucet.a1.taiko.xyz/
+https://l2faucet.a1.taiko.xyz/
+
+Grafana check:
+http://IP:3000/d/L2ExecutionEngine/l2-execution-engine-overview?orgId=1&refresh=5s
