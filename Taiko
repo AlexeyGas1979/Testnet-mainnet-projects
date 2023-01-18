@@ -28,7 +28,7 @@ nano .env
 
 Changes:
 ENABLE_PROPOSER - false to true.
-PRIVATE_KEY вс - metamask pryvat key
+PRIVATE_KEY вс - metamask private key
 FEE_RECIPIENT  - metamask address
 
 Start:
