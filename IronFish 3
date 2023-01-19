@@ -1,0 +1,71 @@
+wget -q -O ironfish.sh https://api.nodes.guru/ironfish.sh && chmod +x ironfish.sh && ./ironfish.sh && unalias ironfish 2>/dev/null
+
+1) Load variables:
+. $HOME/.bashrc
+. $HOME/.bash_profile
+
+2) Set your node name (if you have empty config, you can check that by the command cat $HOME/.ironfish/config.json)
+ironfish config:set nodeName $IRONFISH_NODENAME
+ironfish config:set blockGraffiti $IRONFISH_NODENAME
+
+3) Create wallet:
+ironfish wallet:create $IRONFISH_WALLET
+
+4) Set created wallet as default wallet:
+ironfish wallet:use $IRONFISH_WALLET
+
+5) Check your balance:
+ironfish wallet:balance $IRONFISH_WALLET
+
+Before starting the miner, make sure that your node is synchronized with the network by running the command:
+
+ironfish status -f
+
+Enable Telemetry:
+ironfish config:set enableTelemetry true
+
+Send a transaction using your default account:
+ironfish wallet:send
+
+If you want to send the transaction from another account, you can use the `-f` flag
+ironfish wallet:send -f MySecondAccount
+
+In order to receive a transaction, you just need to tell the sender the public key of your account. If you do not know your public key, run the following command:
+ironfish wallet:address
+
+View the list of accounts on your node:
+ironfish wallet
+
+Export an account
+ironfish wallet:export
+
+Import an account from a file:
+ironfish wallet:import filename
+
+Delete your account:
+ironfish wallet:remove MyAccount
+
+You can get information about connection status and errors by running the following command:
+ironfish peers
+
+Export keys:
+mkdir -p $HOME/.ironfish/keys
+ironfish wallet:export $IRONFISH_WALLET $HOME/.ironfish/keys/$IRONFISH_WALLET.json
+
+Import keys:
+ironfish wallet:import PATH_TO_THE_KEY
+
+Check ironfish status:
+ironfish status -f
+
+Check the node:
+journalctl -u ironfishd -f
+
+Check the miner:
+journalctl -u ironfishd-miner -f
+
+Stop the node:
+service ironfishd stop
+
+Stop the miner:
+service ironfishd-miner stop
