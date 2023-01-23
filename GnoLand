@@ -1,0 +1,57 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install make clang pkg-config libssl-dev libclang-dev build-essential git curl ntp jq llvm tmux htop screen -y
+wget https://golang.org/dl/go1.18.4.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.18.4.linux-amd64.tar.gz
+
+cat <<EOF >> ~/.profile
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export GO111MODULE=on
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+EOF
+source ~/.profile
+go version
+rm -rf go1.18.4.linux-amd64.tar.gz
+
+git clone https://github.com/gnolang/gno/
+cd gno
+git checkout chain/test3.0
+make build
+cd ~
+mv gno/build/gnokey /usr/bin
+chmod +x /usr/bin/gnokey
+
+gnokey add YOUR_accaount_name
+or
+gnokey add account --recover
+Check:
+gnokey list
+
+Faucet:
+https://app.gno.tools/faucet
+
+Acc registration:
+gnokey query auth/accounts/YOUR_address --remote test3.gno.land:36657
+
+Regs tx: (YOUR_USERNAME can only contain small letters and must be 6~17 characters long)
+gnokey maketx call YOUR_address --pkgpath "gno.land/r/demo/users" --func "Register" --gas-fee 1000000ugnot --gas-wanted 3000000 --send "200000000ugnot" --args "" --args "YOUR_USERNAME" --args "" > unsigned.tx
+
+Make tx:
+gnokey sign YOUR_address --txpath unsigned.tx --chainid test3 --number ACCOUNTNUMBER --sequence SEQUENCENUMBER > signed.tx
+gnokey broadcast signed.tx --remote test3.gno.land:36657
+
+Check your node:
+https://test3.gno.land/r/demo/users
+
+Create a name in BoardName:
+gnokey maketx call YOUR_address --pkgpath "gno.land/r/demo/boards" --func "CreateBoard" --gas-fee 1000000ugnot --gas-wanted 10000000 --send 1000000ugnot --broadcast true --chainid test3 --args "BOARDNAME" --remote test3.gno.land:36657
+
+Check your name:
+https://test3.gno.land/r/demo/boards
+
+Adding some information to our board.
+
+Delite node:
+rm -rf /usr/bin/gnokey
+rm -rf gno
+rm -rf .gno
