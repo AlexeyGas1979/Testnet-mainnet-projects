@@ -69,3 +69,19 @@ service ironfishd stop
 
 Stop the miner:
 service ironfishd-miner stop
+
+Commnads for actrivity
+ironfish faucet
+
+Balance:
+ironfish wallet:balance
+ironfish wallet:balances
+
+Mint an asset once a week (200 points)
+ironfish wallet:mint
+
+Burn an asset once a week (200 points)
+ironfish wallet:burn
+
+Once a week you can send an asset (200 points)
+ironfish wallet:send --to dfc2679369551e64e3950e06a88e68466e813c63b100283520045925adbe59ca
