@@ -1,3 +1,13 @@
+If you want build a node with otrhes nodes on your serv you should add a new user:
+sudo adduser YOUR_USER_NAME
+sudo adduser YOUR_USER_NAME sudo
+sudo nano /etc/sudoers
+add:
+%YOUR_USER_NAME ALL=(ALL) ALL
+
+Exit current root session
+Log in as a new user
+
 sudo apt update && sudo apt upgrade -y
 sudo apt install make clang pkg-config libssl-dev libclang-dev build-essential git curl ntp jq llvm tmux htop screen -y
 wget https://golang.org/dl/go1.18.4.linux-amd64.tar.gz
