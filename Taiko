@@ -43,3 +43,42 @@ https://l2faucet.a1.taiko.xyz/
 
 Grafana check:
 http://IP:3000/d/L2ExecutionEngine/l2-execution-engine-overview?orgId=1&refresh=5s
+
+
+Deploying a smart contract in the Taiko A1 network:
+1) Go to https://remix.ethereum.org/#optimize=false&runs=200&evmVersion=null&version=soljson-v0.8.7+commit.e28d00a7.js
+2) Press New file button
+3) Create a file with any name *.sol
+4) Paste the contract code:
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+
+contract taiko{
+
+    address public owner;
+    mapping (address => uint) public payments;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function Donate() public payable {
+        payments[msg.sender] = msg.value;
+    }
+
+    function MoneyBack() public {
+        address payable _to = payable(owner);
+        address _thisContract = address(this);
+        _to.transfer(_thisContract.balance);
+    }
+}
+5) Save: Control + S
+6) Go to the Deploy and Run transaction section
+7) In the ENVIRONMENT tab, change to Metamask
+8) Go to your Metamask and be sure to select the Taiko A1 network
+9) Click Deploy button and sign transaction
+10) Click Donate button. Sign the transaction in Metamask
+11) Click MoneyBack button. Sign the transaction in Metamask.
+DONE!!!
