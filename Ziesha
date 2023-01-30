@@ -1,3 +1,156 @@
+Test part 2
+
+sudo apt update && sudo apt upgrade -y
+sudo apt install wget jq git curl build-essential libssl-dev gcc cmake mc -y
+
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+source ~/.cargo/env
+
+sudo systemctl stop ziesha zorod uzid
+sudo systemctl disable ziesha zorod uzid
+rm -rf $HOME/bazuka
+rm -rf $HOME/zoro
+rm -rf $HOME/.zoro
+rm -rf $HOME/uzi-miner
+rm -rf ~/.bazuka ~/.bazuka-wallet ~/.bazuka.yaml ~/.uzi-pool-history ~/.uzi-pool-miners
+sudo rm /etc/systemd/system/ziesha.service
+sudo rm /etc/systemd/system/zorod.service 
+sudo rm /etc/systemd/system/uzid.service
+sudo systemctl daemon-reload
+
+cd
+git clone https://github.com/ziesha-network/bazuka
+cd $HOME/bazuka
+git pull origin master
+cargo install --path .
+
+cd
+bazuka init --network pelmeni --bootstrap 65.108.193.133:8765 --mnemonic "YOUR OLD MNEMONIC PHRASE"
+
+ZEEKADISCORD=YOUR_DISCORD
+echo "export ZEEKADISCORD="${ZEEKADISCORD}"" >> $HOME/.bash_profile
+source $HOME/.bash_profile
+
+sudo tee <<EOF >/dev/null /etc/systemd/system/ziesha.service
+[Unit]
+Description=Zeeka node
+After=network.target
+
+[Service]
+User=$USER
+ExecStart=`RUST_LOG=info which bazuka` node start --discord-handle "$ZEEKADISCORD"
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable ziesha
+sudo systemctl restart ziesha
+
+Logs:
+sudo journalctl -f -u ziesha
+
+nano ~/.bazuka.yaml
+bootstrap:
+  - "65.108.193.133:8765"
+  - "207.55.59.45:8765"
+  - "161.97.76.47:8765"
+  - "89.179.68.98:8765"
+
+Status:
+bazuka node status
+
+bazuka wallet info
+
+Explorer
+http://65.108.193.133:8000/nodes
+
+Update
+sudo systemctl stop ziesha
+cd $HOME/bazuka
+git pull origin master
+cargo update
+cargo install --path .
+# if need delitw database # 
+rm -rf /root/.bazuka
+sudo systemctl restart ziesha
+sudo journalctl -f -u ziesha
+
+cat ~/.bazuka-wallet
+
+Delite
+sudo systemctl stop ziesha && sudo systemctl disable ziesha
+rm -rf ~/bazuka ~/.bazuka ~/.bazuka-wallet ~/.bazuka.yaml
+rm /etc/systemd/system/ziesha.service 
+sudo systemctl daemon-reload
+
+Pool mining
+cd
+git clone https://github.com/zeeka-network/uzi-miner
+cd uzi-miner && cargo install --path .
+
+bazuka wallet new-account
+bazuka wallet info
+
+Get pool token
+http://89.179.68.98:8501
+
+zthreads=32
+token=YOUR_POOL_TOKEN
+Создайте службу для запуска майнера:
+
+sudo tee <<EOF >/dev/null /etc/systemd/system/uzid.service
+[Unit]
+Description=uzi miner
+After=network.target
+
+[Service]
+User=$USER
+ExecStart=`RUST_LOG=info which uzi-miner` --pool --node 89.179.68.98:8766 --threads $zthreads  --miner-token $token
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable uzid
+sudo systemctl restart uzid
+
+Logs
+sudo journalctl -f -u uzid
+
+bazuka wallet info
+
+Update Uzi:
+sudo systemctl stop uzid
+rm -rf $HOME/uzi-miner && cd
+git clone https://github.com/zeeka-network/uzi-miner
+cd $HOME/uzi-miner && cargo install --path .
+sudo systemctl restart uzid
+sudo journalctl -f -u uzid
+
+Useful commands
+All logs:
+sudo journalctl -f -u uzid -u ziesha
+
+Restart all services
+sudo systemctl restart all services ziesha uzid
+
+Node status
+bazuka node status
+
+bazuka wallet info
+http://ziesha.network/zeejs/
+
+Test part 1
+
 sudo apt update && sudo apt upgrade -y && sudo apt install wget jq git libssl-dev cmake mc -y && sudo apt install curl build-essential gcc make -y && curl https://sh.rustup.rs/ -sSf | sh -s -- -y && source ~/.cargo/env
 
 cd && git clone https://github.com/zeeka-network/bazuka && cd $HOME/bazuka && git pull origin master && cargo update && cargo install --path .
