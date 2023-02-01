@@ -1,3 +1,7 @@
+Start 2 stage
+Comming soon... 
+
+
 sudo apt update && sudo apt upgrade -y
 sudo apt install make clang pkg-config libssl-dev libclang-dev build-essential git curl ntp jq llvm tmux htop screen unzip -y
 sudo apt install docker.io -y
@@ -26,5 +30,3 @@ cat charon-distributed-validator-node/.charon/charon-enr-private-key
 
 Delite:
 rm -rf charon-distributed-validator-node
-
-
