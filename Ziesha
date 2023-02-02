@@ -25,7 +25,7 @@ git pull origin master
 cargo install --path .
 
 cd
-bazuka init --network pelmeni --bootstrap 65.108.193.133:8765 --mnemonic "YOUR OLD MNEMONIC PHRASE"
+bazuka init --network pelmeni-2 --bootstrap 65.108.193.133:8765 --mnemonic "YOUR OLD MNEMONIC PHRASE"
 
 ZEEKADISCORD=YOUR_DISCORD
 echo "export ZEEKADISCORD="${ZEEKADISCORD}"" >> $HOME/.bash_profile
