@@ -1,8 +1,5 @@
 wallet=YOUR_WALLET
 echo 'export wallet='$wallet >> $HOME/.bash_profile
-wget -O nym_sandbox.sh https://api.nodes.guru/nym_sandbox.sh && chmod +x nym_sandbox.sh && ./nym_sandbox.sh
-wallet=YOUR_WALLET
-echo 'export wallet='$wallet >> $HOME/.bash_profile
 wget -O nym_upgrade.sh https://api.nodes.guru/nym_upgrade.sh && chmod +x nym_upgrade.sh && ./nym_upgrade.sh
 . $HOME/.bash_profile
 nym-mixnode node-details --id $node_id
@@ -102,4 +99,3 @@ nyxd tx wasm execute n14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sjyvg3
 
 Update:
 wget -O nym_update.sh https://api.nodes.guru/nym_update.sh && chmod +x nym_update.sh && ./nym_update.sh
-
