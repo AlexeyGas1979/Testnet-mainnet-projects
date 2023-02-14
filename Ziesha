@@ -101,7 +101,6 @@ http://89.179.68.98:8501
 
 zthreads=32
 token=YOUR_POOL_TOKEN
-Создайте службу для запуска майнера:
 
 sudo tee <<EOF >/dev/null /etc/systemd/system/uzid.service
 [Unit]
