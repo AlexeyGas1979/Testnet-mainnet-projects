@@ -77,5 +77,3 @@ sudo systemctl restart nibid
 
 get out of jail after sync
 nibid tx slashing unjail --from wallet --fees 5000unibi --chain-id  nibiru-testnet-2 -y
-
-
