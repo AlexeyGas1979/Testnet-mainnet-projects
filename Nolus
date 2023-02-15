@@ -4,7 +4,7 @@ source $HOME/.bash_profile
 
 Create a wallet:
 nolusd keys add wallet
-Get tokens in the discord.
+Get tokens in the discord
 
 After full synchronization, check the balance:
 nolusd q bank balances YOUR_WALLET_ADDRESS
@@ -51,5 +51,3 @@ Remove node
 systemctl stop nolusd
 systemctl disable nolusd
 rm -rf $(which nolusd) ~/.nolus ~/nolus-core
-
-
