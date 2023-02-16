@@ -29,6 +29,7 @@ bazuka init --network pelmeni-2 --bootstrap 65.108.193.133:8765 --mnemonic "YOUR
 pelmeni-3
 pelmeni-4
 pelmeni-5
+pelmeni-6
 
 ZEEKADISCORD=YOUR_DISCORD
 echo "export ZEEKADISCORD="${ZEEKADISCORD}"" >> $HOME/.bash_profile
