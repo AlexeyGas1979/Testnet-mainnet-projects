@@ -30,3 +30,9 @@ operator-cli gui start
 Telemetry:
 https://<localhost>:8080
 Go to the “Maintenance” page, then click the “Start Node” button in the top left white box
+
+Delite:
+cd ~/.shardeum 
+/cleanup.sh 
+cd ~/ rm -rf .shardeum 
+rm installer.sh
