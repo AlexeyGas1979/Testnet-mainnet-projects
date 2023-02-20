@@ -36,3 +36,5 @@ cd ~/.shardeum
 /cleanup.sh 
 cd ~/ rm -rf .shardeum 
 rm installer.sh
+
+
