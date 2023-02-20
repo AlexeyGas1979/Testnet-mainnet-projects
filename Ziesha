@@ -30,6 +30,7 @@ pelmeni-3
 pelmeni-4
 pelmeni-5
 pelmeni-6
+pelmeni-7
 
 ZEEKADISCORD=YOUR_DISCORD
 echo "export ZEEKADISCORD="${ZEEKADISCORD}"" >> $HOME/.bash_profile
