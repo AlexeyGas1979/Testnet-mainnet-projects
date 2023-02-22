@@ -1,0 +1,46 @@
+wget -q -O andromeda.sh https://api.nodes.guru/andromeda.sh && chmod +x andromeda.sh && sudo /bin/bash andromeda.sh
+source $HOME/.bash_profile
+
+andromedad keys add wallet
+andromedad q bank balances YOUR_WALLET_ADDRESS
+
+Validator create:
+
+andromedad tx staking create-validator \
+--moniker="$VALIDATOR" \
+--amount=1000000uandr \
+--fees 300uandr \
+--pubkey=$(andromedad tendermint show-validator) \
+--chain-id=$CHAIN_ID \
+--commission-max-change-rate=0.01 \
+--commission-max-rate=0.20 \
+--commission-rate=0.10 \
+--min-self-delegation=1 \
+--from=wallet \
+--yes 
+
+Log:
+journalctl -u andromedad -f -o cat
+
+Restart
+systemctl restart andromedad
+
+Status
+curl localhost:26657/status
+
+Sync
+curl -s localhost:26657/status | jq .result.sync_info.catching_up
+
+Valoper:
+andromedad keys show wallet --bech val -a
+
+Staking:
+andromedad tx staking delegate YOUR_VALOPER_ADDRESS 1000000uandr --from wallet --chain-id $CHAIN_ID --fees 5000uandr
+
+Ports:
+26656, 26657, 9091, 9090, 6060, 1317
+
+Delite:
+systemctl stop andromedad
+systemctl disable andromedad
+rm -rf ~/andromeda ~/.andromedad /etc/systemd/system/andromedad.service
