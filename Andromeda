@@ -4,6 +4,9 @@ source $HOME/.bash_profile
 andromedad keys add wallet
 andromedad q bank balances YOUR_WALLET_ADDRESS
 
+wallet recovery:
+andromedad keys add wallet --recover
+
 Validator create:
 
 andromedad tx staking create-validator \
