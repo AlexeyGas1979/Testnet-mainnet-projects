@@ -31,6 +31,9 @@ Telemetry:
 https://<localhost>:8080
 Go to the “Maintenance” page, then click the “Start Node” button in the top left white box
 
+Update:
+cd && cd .shardeum && ./update.sh
+
 Delite:
 cd ~/.shardeum 
 /cleanup.sh 
