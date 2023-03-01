@@ -242,3 +242,4 @@ sudo systemctl disable kyved
 rm -Rvf /usr/bin/kyve* $HOME/kyve
 sudo rm -v /etc/systemd/system/kyved.service && \
 sudo systemctl daemon-reload
+
