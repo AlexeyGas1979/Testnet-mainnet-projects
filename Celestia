@@ -148,4 +148,5 @@ celestia-appd tx staking create-validator \
 
 celestia-appd tx staking delegate [VALOPER_ADDRESS] [STAKE_AMOUNT]utia --from wallet --chain-id mamaki --fees 500utia
 
-
+Delite:
+sudo systemctl stop celestia-appd && sudo systemctl disable celestia-appd && rm -rf celestia-app && rm -rf .celestia-app
