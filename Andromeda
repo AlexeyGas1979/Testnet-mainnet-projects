@@ -53,3 +53,6 @@ Delite:
 systemctl stop andromedad
 systemctl disable andromedad
 rm -rf ~/andromeda ~/.andromedad /etc/systemd/system/andromedad.service
+
+Vote:
+andromedad tx gov vote 2 yes --from wallet --chain-id=$CHAIN_ID --gas-prices 0.1uandr --gas-adjustment 1.5 --gas auto -y
