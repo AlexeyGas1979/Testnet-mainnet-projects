@@ -70,6 +70,10 @@ service ironfishd stop
 Stop the miner:
 service ironfishd-miner stop
 
+Delite:
+service ironfishd stop && service ironfishd-miner stop
+rm -rf .ironfish ironfish_accounts ironfish_accounts_1674821764 ironfish_accounts_1675673901 ironfish.sh
+
 Commnads for actrivity
 ironfish faucet
 
