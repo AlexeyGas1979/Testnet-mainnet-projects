@@ -59,3 +59,6 @@ andromedad tx gov vote 2 yes --from wallet --chain-id=$CHAIN_ID --gas-prices 0.1
 
 UnJail:
 andromedad tx slashing unjail --from wallet --node https://rpc-andromeda-testnet.cereslabs.io:443 --chain-id $CHAIN_ID
+
+Reward claim:
+andromedad tx distribution withdraw-rewards $(andromedad keys show wallet --bech val -a) --commission --from wallet --chain-id=$CHAIN_ID --gas-prices 0.1uandr --gas-adjustment 1.5 --gas auto -y
