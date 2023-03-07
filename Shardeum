@@ -34,6 +34,9 @@ Go to the “Maintenance” page, then click the “Start Node” button in the 
 Update:
 cd && cd .shardeum && ./update.sh
 
+Update2:
+curl -O https://gitlab.com/shardeum/validator/dashboard/-/raw/main/installer.sh && chmod +x installer.sh && ./installer.sh
+
 Delite:
 cd ~/.shardeum 
 /cleanup.sh 
