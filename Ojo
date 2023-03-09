@@ -108,3 +108,61 @@ ojod status 2>&1 | jq ."SyncInfo"."latest_block_height"
 sudo journalctl -u ojod -f -o cat
 
 ojod tx gov vote 1 yes --from $OJO_WALLET --keyring-backend os --chain-id $OJO_CHAIN_ID --node https://ojo-testnet-rpc.polkachu.com:443 -y
+
+Install PF (Price Feeder):
+OJO_HOME="$HOME/.ojo"
+echo "export OJO_HOME=${OJO_HOME}" >> $HOME/.bash_profile
+source $HOME/.bash_profile
+
+cd $HOME
+git clone https://github.com/ojo-network/price-feeder
+cd price-feeder
+git checkout v0.1.1
+make install
+
+OJO_KEYRING="os"
+OJO_KEYRING_PASSWORD="YOUR_KEYRING_PASSWORD_(May_be_your_wallet_pass)"
+OJO_RPC_PORT=26657
+OJO_GRPC_PORT=9090
+echo "
+export OJO_KEYRING=${OJO_KEYRING}
+export OJO_KEYRING_PASSWORD=${OJO_KEYRING_PASSWORD}
+export OJO_RPC_PORT=${OJO_RPC_PORT}
+export OJO_GRPC_PORT=${OJO_GRPC_PORT}
+" >> $HOME/.bash_profile
+source $HOME/.bash_profile
+
+mkdir -p $HOME/price-feeder-config
+wget -O $HOME/price-feeder-config/price-feeder.toml "https://raw.githubusercontent.com/ojo-network/price-feeder/main/price-feeder.example.toml"
+
+sed -i '/^dir *=.*/a pass = ""' $HOME/price-feeder-config/price-feeder.toml
+
+sed -i "s/^address *=.*/address = \"$OJO_ADDRESS\"/;\
+s/^chain_id *=.*/chain_id = \"$OJO_CHAIN_ID\"/;\
+s/^validator *=.*/validator = \"$OJO_VALOPER\"/;\
+s/^backend *=.*/backend = \"$OJO_KEYRING\"/;\
+s|^dir *=.*|dir = \"$OJO_HOME\"|;\
+s|^pass *=.*|pass = \"$OJO_KEYRING_PASSWORD\"|;\
+s|^grpc_endpoint *=.*|grpc_endpoint = \"localhost:${OJO_GRPC_PORT}\"|;\
+s|^tmrpc_endpoint *=.*|tmrpc_endpoint = \"http://localhost:${OJO_RPC_PORT}\"|;" $HOME/price-feeder-config/price-feeder.toml
+
+echo "
+[Unit]
+Description=Ojo PF
+After=network-online.target
+[Service]
+User=$USER
+Environment="PRICE_FEEDER_PASS=${OJO_KEYRING_PASSWORD}"
+Type=simple
+ExecStart=$(which price-feeder) $HOME/price-feeder-config/price-feeder.toml --log-level debug
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+[Install]
+WantedBy=multi-user.target" > $HOME/price-feeder.service
+
+sudo mv $HOME/price-feeder.service /etc/systemd/system
+
+sudo systemctl daemon-reload
+sudo systemctl enable price-feeder
+sudo systemctl start price-feeder && journalctl -u price-feeder -f -o cat
