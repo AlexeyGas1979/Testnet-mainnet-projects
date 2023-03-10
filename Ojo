@@ -107,7 +107,11 @@ ojod status 2>&1 | jq ."SyncInfo"."latest_block_height"
 
 sudo journalctl -u ojod -f -o cat
 
+VOTE
 ojod tx gov vote 1 yes --from $OJO_WALLET --keyring-backend os --chain-id $OJO_CHAIN_ID --node https://ojo-testnet-rpc.polkachu.com:443 -y
+
+UNJAIL
+ojod tx slashing unjail --from wallet --chain-id ojo-devnet --gas-adjustment 1.4 --gas auto --gas-prices 0uojo -y
 
 Install PF (Price Feeder):
 OJO_HOME="$HOME/.ojo"
