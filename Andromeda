@@ -90,4 +90,3 @@ curl -s https://snapshots2-testnet.nodejumper.io/andromeda-testnet/wasm.lz4 | lz
 
 sudo systemctl restart andromedad
 sudo journalctl -u andromedad -f --no-hostname -o cat
-
