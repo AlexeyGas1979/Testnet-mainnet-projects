@@ -110,6 +110,11 @@ sudo journalctl -u ojod -f -o cat
 VOTE
 ojod tx gov vote 1 yes --from $OJO_WALLET --keyring-backend os --chain-id $OJO_CHAIN_ID --node https://ojo-testnet-rpc.polkachu.com:443 -y
 
+BALANCE
+ojod query bank balances $OJO_ADDRESS
+
+STAKE
+ojod tx staking delegate ojovaloper10kaunxmz7c3nuc7f00gs7lx6gsuhadj9lj6khn 9000000uojo --from $OJO_WALLET --chain-id $OJO_CHAIN_ID --node https://ojo-testnet-rpc.polkachu.com:443 -y
 
 UNJAIL
 ojod tx slashing unjail --from wallet --chain-id ojo-devnet --gas-adjustment 1.4 --gas auto --gas-prices 0uojo -y
