@@ -49,3 +49,4 @@ export APP_IP=YOUR_NoDE_IP
 sudo apt install screen
 screen -S monitor
 wget -q -O node_control.sh https://raw.githubusercontent.com/mesahin001/shardeum/main/node_control.sh && chmod +x node_control.sh && sudo /bin/bash node_control.sh
+
