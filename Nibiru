@@ -1,79 +1,129 @@
-wget -q -O nibiru.sh https://api.nodes.guru/nibiru.sh && chmod +x nibiru.sh && sudo /bin/bash nibiru.sh
-source $HOME/.bash_profile
+MONIKER="YOUR_MONIKER_GOES_HERE"
 
-nibid keys add wallet
-#faucet
+sudo apt -q update
+sudo apt -qy install curl git jq lz4 build-essential
+sudo apt -qy upgrade
 
-nibid q bank balances YOUR_WALLET_ADDRESS
+sudo rm -rf /usr/local/go
+curl -Ls https://go.dev/dl/go1.19.7.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
+eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
+eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 
-nibid tx staking create-validator \
---amount=1000000unibi \
---pubkey=$(nibid tendermint show-validator) \
---moniker="$NIBIRU_NODENAME" \
---chain-id=nibiru-testnet-1 \
---commission-rate="0.01" \
---commission-max-rate="0.10" \
---commission-max-change-rate="0.01" \
---min-self-delegation="1000000" \
---fees=10000unibi \
---from=wallet \
--y
-
-Logs
-journalctl -u nibid -f
-
-Restart 
-systemctl restart nibid
-
-Status
-curl localhost:26657/status
-
-Sync
-curl -s localhost:26657/status | jq .result.sync_info.catching_up
-
-nibid keys show wallet --bech val -a
-
-nibid tx staking delegate YOUR_VALOPER_ADDRESS 10000000unibi --from wallet --chain-id nibiru-testnet-1 --fees 1000unibi
-
-nibid query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_BONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
-
-nibid query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_UNBONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
-
-Edit validator:
-nibid tx staking edit-validator \
---identity=AA0F35AC5AFCD0C5 \
---website=https://ucrypto.pro/ \
---details=https://t.me/ucryptomedia \
---chain-id=nibiru-testnet-1 \
---fees=5000unibi \
---from=wallet \
--y
-
-Delite:
-systemctl stop nibid
-systemctl disable nibid
-rm -rf $(which nibid) ~/.nibid ~/nibiru
-
-Upload:
-sudo systemctl stop nibid
-cd && rm -rf nibiru
+cd $HOME
+rm -rf nibiru
 git clone https://github.com/NibiruChain/nibiru.git
 cd nibiru
-git checkout v0.16.3
-make build
-sudo mv build/nibid $(which nibid)
-nibid tendermint unsafe-reset-all --home $HOME/.nibid --keep-addr-book
-curl -o - -L https://snapshots.polkachu.com/testnet-snapshots/nibiru/nibiru_980005.tar.lz4 | lz4 -c -d - | tar -x -C $HOME/.nibid
-sudo systemctl restart nibid
+git checkout v0.19.2
 
-Upload V2
-cd && rm -rf nibiru
-git clone https://github.com/NibiruChain/nibiru.git
-cd nibiru
-git checkout v0.16.3
 make build
-sudo mv build/nibid $(which nibid)
-sudo systemctl restart nibid
 
-get out of jail after sync
-nibid tx slashing unjail --from wallet --fees 5000unibi --chain-id  nibiru-testnet-2 -y
+mkdir -p $HOME/.nibid/cosmovisor/genesis/bin
+mv build/nibid $HOME/.nibid/cosmovisor/genesis/bin/
+rm -rf build
+
+ln -s $HOME/.nibid/cosmovisor/genesis $HOME/.nibid/cosmovisor/current
+sudo ln -s $HOME/.nibid/cosmovisor/current/bin/nibid /usr/local/bin/nibid
+
+go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.4.0
+
+sudo tee /etc/systemd/system/nibid.service > /dev/null << EOF
+[Unit]
+Description=nibiru-testnet node service
+After=network-online.target
+
+[Service]
+User=$USER
+ExecStart=$(which cosmovisor) run start
+Restart=on-failure
+RestartSec=10
+LimitNOFILE=65535
+Environment="DAEMON_HOME=$HOME/.nibid"
+Environment="DAEMON_NAME=nibid"
+Environment="UNSAFE_SKIP_BACKUP=true"
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:$HOME/.nibid/cosmovisor/current/bin"
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable nibid
+
+nibid config chain-id nibiru-itn-1
+nibid config keyring-backend test
+nibid config node tcp://localhost:39657
+
+nibid init $MONIKER --chain-id nibiru-itn-1
+
+curl -Ls https://snapshots.kjnodes.com/nibiru-testnet/genesis.json > $HOME/.nibid/config/genesis.json
+curl -Ls https://snapshots.kjnodes.com/nibiru-testnet/addrbook.json > $HOME/.nibid/config/addrbook.json
+
+sed -i -e "s|^seeds *=.*|seeds = \"3f472746f46493309650e5a033076689996c8881@nibiru-testnet.rpc.kjnodes.com:39659\"|" $HOME/.nibid/config/config.toml
+
+sed -i -e "s|^minimum-gas-prices *=.*|minimum-gas-prices = \"0.025unibi\"|" $HOME/.nibid/config/app.toml
+
+sed -i \
+  -e 's|^pruning *=.*|pruning = "custom"|' \
+  -e 's|^pruning-keep-recent *=.*|pruning-keep-recent = "100"|' \
+  -e 's|^pruning-keep-every *=.*|pruning-keep-every = "0"|' \
+  -e 's|^pruning-interval *=.*|pruning-interval = "19"|' \
+  $HOME/.nibid/config/app.toml
+
+sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:39658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:39657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:39060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:39656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":39660\"%" $HOME/.nibid/config/config.toml
+sed -i -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:39317\"%; s%^address = \":8080\"%address = \":39080\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:39090\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:39091\"%; s%^address = \"0.0.0.0:8545\"%address = \"0.0.0.0:39545\"%; s%^ws-address = \"0.0.0.0:8546\"%ws-address = \"0.0.0.0:39546\"%" $HOME/.nibid/config/app.toml
+
+curl -L https://snapshots.kjnodes.com/nibiru-testnet/snapshot_latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.nibid
+[[ -f $HOME/.nibid/data/upgrade-info.json ]] && cp $HOME/.nibid/data/upgrade-info.json $HOME/.nibid/cosmovisor/genesis/upgrade-info.json
+
+sudo systemctl start nibid && sudo journalctl -u nibid -f --no-hostname -o cat
+
+Set up a pricefeeder
+To run pricefeeder you validator should be in active set. Otherwise price feeder will not vote on periods.
+curl -s https://get.nibiru.fi/pricefeeder! | bash
+Create new wallet for pricefeeder and save 24 word mnemonic phrase
+nibid keys add pricefeeder-wallet
+Top up the pricefeeder-wallet going to Nibiru Discord #faucet channel.
+
+export FEEDER_MNEMONIC="my pricefeeder 24 word mnemonic phrase goes here ..."
+
+export CHAIN_ID="nibiru-itn-1"
+export GRPC_ENDPOINT="localhost:39090"
+export WEBSOCKET_ENDPOINT="ws://localhost:39657/websocket"
+export EXCHANGE_SYMBOLS_MAP='{ "bitfinex": { "ubtc:uusd": "tBTCUSD", "ueth:uusd": "tETHUSD", "uusdt:uusd": "tUSTUSD" }, "binance": { "ubtc:uusd": "BTCUSD", "ueth:uusd": "ETHUSD", "uusdt:uusd": "USDTUSD", "uusdc:uusd": "USDCUSD", "uatom:uusd": "ATOMUSD", "ubnb:uusd": "BNBUSD", "uavax:uusd": "AVAXUSD", "usol:uusd": "SOLUSD", "uada:uusd": "ADAUSD", "ubtc:unusd": "BTCUSD", "ueth:unusd": "ETHUSD", "uusdt:unusd": "USDTUSD", "uusdc:unusd": "USDCUSD", "uatom:unusd": "ATOMUSD", "ubnb:unusd": "BNBUSD", "uavax:unusd": "AVAXUSD", "usol:unusd": "SOLUSD", "uada:unusd": "ADAUSD" } }'
+export VALIDATOR_ADDRESS=$(nibid keys show wallet --bech val -a)
+
+sudo tee /etc/systemd/system/pricefeeder.service<<EOF
+[Unit]
+Description=Nibiru Pricefeeder
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=exec
+User=$USER
+Group=$USER
+ExecStart=/usr/local/bin/pricefeeder
+Restart=on-failure
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+PermissionsStartOnly=true
+LimitNOFILE=65535
+Environment=CHAIN_ID='$CHAIN_ID'
+Environment=GRPC_ENDPOINT='$GRPC_ENDPOINT'
+Environment=WEBSOCKET_ENDPOINT='$WEBSOCKET_ENDPOINT'
+Environment=EXCHANGE_SYMBOLS_MAP='$EXCHANGE_SYMBOLS_MAP'
+Environment=FEEDER_MNEMONIC='$FEEDER_MNEMONIC'
+Environment=VALIDATOR_ADDRESS='$VALIDATOR_ADDRESS'
+
+[Install]
+WantedBy=multi-user.target
+EOF
+Delegate pricefeeder responsibility
+As a validator, if you'd like another account to post prices on your behalf (i.e. you don't want your validator mnemonic sending txs), you can delegate pricefeeder responsibilities to another nibi address.
+nibid tx oracle set-feeder $(nibid keys show pricefeeder-wallet -a) --from wallet
+Register and start the systemd service
+sudo systemctl daemon-reload && \
+sudo systemctl enable pricefeeder && \
+sudo systemctl start pricefeeder
+
+journalctl -fu pricefeeder
