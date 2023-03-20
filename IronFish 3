@@ -92,7 +92,7 @@ ironfish wallet:send --to dfc2679369551e64e3950e06a88e68466e813c63b1002835200459
 
 NEW WALLET INSTALL
 wget -q -O ironfish_wallet.sh https://api.nodes.guru/ironfish_wallet.sh && chmod +x ironfish_wallet.sh && sudo /bin/bash ironfish_wallet.sh
-ironfish wallet:create wallet
 
+ironfish wallet:create wallet
 ironfish wallet:export wallet
 ironfish wallet:export wallet --mnemonic --language=English
