@@ -127,3 +127,4 @@ sudo systemctl enable pricefeeder && \
 sudo systemctl start pricefeeder
 
 journalctl -fu pricefeeder
+
