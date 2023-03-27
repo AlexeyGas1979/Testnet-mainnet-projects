@@ -130,3 +130,4 @@ journalctl -fu pricefeeder
 
 Delite
 sudo systemctl stop nibid && sudo systemctl disable nibid && sudo rm /etc/systemd/system/nibid.service && sudo systemctl daemon-reload && rm -f $(which nibid) && rm -rf $HOME/.nibid && rm -rf $HOME/nibiru
+
