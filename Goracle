@@ -1,0 +1,46 @@
+sudo wget -qP /usr/bin/ https://staging.dev.goracle.io/downloads/latest-staging/goracle && sudo chmod u+x /usr/bin/goracle
+sudo goracle init
+
+1.1
+Continue? [y/N]?
+Use Algonode Algorand API service (recommended)? [Y/n]?
+answer Y both 1st and 2nd time
+
+1.2 
+Enter Algonode API auth token or press enter for free-tier default
+Press Enter
+
+1.3
+Enter your main Algorand account address
+1. Go to https://testnet-app.goracle.io/nodes/optin, connect with your wallet and copy the address (highlighted on screenshot)
+2. And paste it in terminal
+3. Then press Enter.
+
+1.4 Register your participation address
+1. Open the participation address registration link in your browser.
+2. The page should look like this (you may need to connect your Pera wallet again)
+
+3. Press Register (green button).
+4. Confirm transactions in your wallet (for Pera you should check your mobile app)
+If you get the following error after you have confirmed the transactions, please check that you've enabled pop-ups and you have Algos in your wallet (faucet).
+
+Then you will need to top up (use the faucet) for your participation address
+
+The next step is only for those who have received their access codes. If you haven't, just skip it, you'll still be able to install the node and relay the feeds, but won't participate in the consensus. You will also still complete "Run A Node" task.
+1.5 Stake tokens (requires access code)
+1. Press "Get Test Gora"
+2. Paste your code
+3. Add stake
+Then confirm your actions in the wallet and you will see that your stake has increased
+
+1.6 Return to the terminal and press Enter.
+2. Install docker
+bash <(wget -qO- https://raw.githubusercontent.com/ttimmatti/dependencies/main/docker.sh)
+You should see similar output (there can be a lot more output lines, it's ok):
+
+3. Run the node
+sudo goracle docker-start --background
+
+4. Check the logs
+docker logs -f goracle-nr
+Press Ctrl+c to exit logs
