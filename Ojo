@@ -117,7 +117,7 @@ STAKE
 ojod tx staking delegate ojovaloper10kaunxmz7c3nuc7f00gs7lx6gsuhadj9lj6khn 9000000uojo --from $OJO_WALLET --chain-id $OJO_CHAIN_ID --node https://ojo-testnet-rpc.polkachu.com:443 -y
 
 UNJAIL
-ojod tx slashing unjail --from wallet --chain-id ojo-devnet --gas-adjustment 1.4 --gas auto --gas-prices 0uojo -y
+ojod tx slashing unjail --from $OJO_WALLET --chain-id ojo-devnet --gas-prices 0.2uojo --gas-adjustment 1.5 --gas auto -y
 
 Install PF (Price Feeder):
 OJO_HOME="$HOME/.ojo"
