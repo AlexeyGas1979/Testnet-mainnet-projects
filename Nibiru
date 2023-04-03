@@ -133,3 +133,6 @@ sudo systemctl stop nibid && sudo systemctl disable nibid && sudo rm /etc/system
 
 Redeligate
 nibid tx staking redelegate from_nibivaloper to_nibivaloperr 1000000unibi --from wallet --chain-id nibiru-itn-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.025unibi -y
+
+Withdraw rewards from all validators
+nibid tx distribution withdraw-all-rewards --from wallet --chain-id nibiru-itn-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.025unibi -y
