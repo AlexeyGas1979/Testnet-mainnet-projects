@@ -321,3 +321,17 @@ sudo systemctl status nolusd
 
 Check service logs
 sudo journalctl -u nolusd -f --no-hostname -o cat
+
+Update binaries (after 1693000 block)
+cd $HOME
+rm -rf nolus-core
+git clone https://github.com/Nolus-Protocol/nolus-core.git
+cd nolus-core
+git checkout v0.2.2
+
+make build
+
+Prepare binaries for Cosmovisor
+mkdir -p $HOME/.nolus/cosmovisor/upgrades/v0.2.2/bin
+mv target/release/nolusd $HOME/.nolus/cosmovisor/upgrades/v0.2.2/bin/
+rm -rf build
