@@ -82,6 +82,7 @@ contract taiko{
 10) Click Donate button. Sign the transaction in Metamask
 11) Click MoneyBack button. Sign the transaction in Metamask.
 
+Test 2
 cd simple-taiko-node && docker compose down
 cd && rm -rf simple-taiko-node
 
