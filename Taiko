@@ -81,4 +81,17 @@ contract taiko{
 9) Click Deploy button and sign transaction
 10) Click Donate button. Sign the transaction in Metamask
 11) Click MoneyBack button. Sign the transaction in Metamask.
-DONE!!!
+
+cd simple-taiko-node && docker compose down
+cd && rm -rf simple-taiko-node
+
+git clone https://github.com/taikoxyz/simple-taiko-node.git
+cd simple-taiko-node
+cp .env.sample .env
+vim .env
+
+docker compose up
+
+docker compose down -v
+docker compose up -d
+docker compose logs -f
