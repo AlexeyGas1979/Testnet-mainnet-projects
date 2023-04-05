@@ -1,10 +1,23 @@
-Docker Engine
+00. Chouse running Mode Of Operator Node
+
+Standalone Mode
+Standalone mode contains the following list of programs/soft on a single host:
+- Geth Service
+- Lighthouse Service
+- OperatorNode Service
+
+Light Mode
+Light mode contains only the OperatorNode service, the following list of programs/soft on a host:
+- OperatorNode Service
+
+
+01. Docker Engine & Docker Compose Installation
+
 sudo apt-get update
 sudo apt-get install \
     ca-certificates \
     curl \
-    gnupg \
-    lsb-release
+    gnupg
 
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -14,35 +27,32 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   
 sudo apt-get update
-sudo chmod a+r /etc/apt/keyrings/docker.gpg
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo docker run hello-world
-
-Docker Compose
-sudo apt-get update
-sudo apt-get install docker-compose-plugin
-
-DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-mkdir -p $DOCKER_CONFIG/cli-plugins
-curl -SL https://github.com/docker/compose/releases/download/v2.14.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
-chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
-sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 docker compose version
 
 sudo systemctl enable docker
 
+02. Node prepare
+
 sudo mkdir -p /data/geth
- 
 sudo mkdir -p /data/lighthouse
 sudo mkdir -p /data/jwt
 sudo mkdir -p /data/operator
 
 openssl rand -hex 32 | tr -d "\n" | sudo tee /data/jwt/jwtsecret
 
+03. Get OPERATOR ID
+
 git clone --recurse-submodules https://github.com/ParaState/SafeStakeOperator.git dvf
+Generate a registration public and private key
 cd dvf
-cp .env.example .env
+sudo docker compose -f docker-compose-operator.yml up dvf_key_tool
+
+Save the public key. Go to SafeStake website https://testnet.safestake.xyz/ and Join As Operator with that public key.
+After register an Operator on the Safestake website, in dashboard find and save an OPERATOR ID (for ex. 42).
+
+04. Get Endpoint WS_URL
 
 Follow the document https://docs.infura.io/infura/
 Regiter a infura account
@@ -58,10 +68,34 @@ infura step1
 Copy your WS_URL
 Or get your alchemy ws_url
 
-sudo docker compose -f  docker-compose-operator.yml up -d
+05. Fill out WS_URL and OPERATOR_ID
 
+Edit local environment variables
+cd dvf
+cp .env.example .env
+
+Update these variables with yours
+WS_URL= #YOUR WSS URL
+OPERATOR_ID= #The Operator ID is the ID you receive after registering the operator on SafeStake website
+BEACON_NODE_ENDPOINT= # Depending on whether you are running single-node mode or multi-node mode, fill in the correct Lighthouse beacon node service url
+
+
+06. Start operator service
+
+sudo docker compose -f  docker-compose-operator.yml up -d
 sudo docker compose -f docker-compose-operator.yml logs -f operator | grep "node public key"
 output
 
 /data/operator/prater/node_key.json
 
+07. Running Lighthouse & Geth Service (Standalone Mode only)
+sudo docker compose -f docker-compose-operator.yml up geth -d
+sudo docker compose -f docker-compose-operator.yml up lighthouse -d
+NOTE: Remember to open the 5052 firewall port for this host
+
+Now that the service is running, you have your own BEACON_NODE_ENDPOINT to fill into the .env file. For example, if the service is running on the same machine where the operator software is running, then you can use a local IP:
+
+BEACON_NODE_ENDPOINT=http://127.0.0.1:5052
+Otherwise, suppose the host where you run the Lighthouse & Geth service has an IP 12.102.103.1, then you can set:
+
+BEACON_NODE_ENDPOINT=http://12.102.103.1:5052
