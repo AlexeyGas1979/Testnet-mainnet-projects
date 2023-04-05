@@ -51,5 +51,3 @@ Remove node
 systemctl stop nolusd
 systemctl disable nolusd
 rm -rf $(which nolusd) ~/.nolus ~/nolus-core
-
-
