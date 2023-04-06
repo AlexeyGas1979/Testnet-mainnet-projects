@@ -44,3 +44,22 @@ sudo goracle docker-start --background
 4. Check the logs
 docker logs -f goracle-nr
 Press Ctrl+c to exit logs
+
+Update
+goracle update
+
+You should change your Algorand Node Api endpoint. For that:
+1. Register at PureStake https://developer.purestake.io/home
+2. Get your PureStake Api Key
+3. In your terminal run
+nano ~/.goracle
+
+Where the highlighted key is YOUR ACTUAL PURESTAKE API KEY.
+So, you should delete the first two lines from the initial file and add these three instead:
+    "authKey": "YOUR_KEY",
+    "server": "https://testnet-algorand.api.purestake.io/ps2",
+    "authHeader": "x-api-key",
+When you're done press Ctrl+x, then Y, then Enter.
+After that run 
+goracle docker-stop && goracle docker-start --background
+And check the logs with logs command
