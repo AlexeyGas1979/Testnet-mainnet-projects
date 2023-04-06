@@ -136,3 +136,6 @@ nibid tx staking redelegate from_nibivaloper to_nibivaloperr 1000000unibi --from
 
 Withdraw rewards from all validators
 nibid tx distribution withdraw-all-rewards --from wallet --chain-id nibiru-itn-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.025unibi -y
+
+Vote'Yes/No'
+nibid tx gov vote proposal№ yes/no --from wallet --chain-id nibiru-itn-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.025unibi -y
