@@ -32,10 +32,10 @@ PRIVATE_KEY вс - metamask private key
 FEE_RECIPIENT  - metamask address
 
 Start:
-docker compose up -d
+cd simple-taiko-node && docker compose up -d
 
 Logs:
-docker compose logs -f
+cd simple-taiko-node && docker compose logs -f
 
 Faucets:
 https://l1faucet.a1.taiko.xyz/
