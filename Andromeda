@@ -63,6 +63,9 @@ andromedad tx slashing unjail --from wallet --node https://rpc-andromeda-testnet
 Reward claim:
 andromedad tx distribution withdraw-rewards $(andromedad keys show wallet --bech val -a) --commission --from wallet --chain-id=$CHAIN_ID --gas-prices 0.1uandr --gas-adjustment 1.5 --gas auto -y
 
+Redegation:
+andromedad tx staking redelegate FROM_VALOPER TO_VALOPER 2000000uandr --from wallet --chain-id galileo-3 --gas-adjustment 1.4 --gas auto --gas-prices 0.0001uandr -y
+
 statesync
 sudo systemctl stop andromedad
 cp $HOME/.andromedad/data/priv_validator_state.json $HOME/.andromedad/priv_validator_state.json.backup
