@@ -140,3 +140,6 @@ nibid tx distribution withdraw-all-rewards --from wallet --chain-id nibiru-itn-1
 Vote'Yes/No'
 nibid tx gov vote proposal№ yes/no --from wallet --chain-id nibiru-itn-1 --gas-adjustment 1.4 --gas auto --gas-prices 0.025unibi -y
 Or:
+
+Unjail
+nibid tx slashing unjail --from wallet -y  --fees 13000unibi --chain-id nibiru-itn-1  --gas 500000
