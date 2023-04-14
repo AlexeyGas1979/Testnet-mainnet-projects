@@ -91,7 +91,7 @@ cd simple-taiko-node
 cp .env.sample .env
 vim .env
 
-docker compose up
+cd simple-taiko-node && docker compose up -d && docker compose logs -f
 
 docker compose down -v
 docker compose up -d
