@@ -176,3 +176,9 @@ sudo mv $HOME/price-feeder.service /etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable price-feeder
 sudo systemctl start price-feeder && journalctl -u price-feeder -f -o cat
+
+To change server vith validator:
+1. Install node in another server
+2. Stop node on the first server
+3. Move priv_validator_key.json to second server
+4. Restart node on the second server 
