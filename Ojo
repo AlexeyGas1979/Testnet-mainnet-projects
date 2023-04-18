@@ -182,3 +182,4 @@ To change server vith validator:
 2. Stop node on the first server
 3. Move priv_validator_key.json to second server
 4. Restart node on the second server 
+
