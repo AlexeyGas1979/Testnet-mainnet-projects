@@ -85,6 +85,13 @@ rm -rf /root/.bazuka
 sudo systemctl restart ziesha
 sudo journalctl -f -u ziesha
 
+cd bazuka
+git pull
+cargo update
+cargo install --path .
+rm -rf ~/.bazuka ~/.bazuka-wallet
+bazuka init --mnemonic "YOUR 12 WORD MNEMONIC"
+
 cat ~/.bazuka-wallet
 
 Delite
