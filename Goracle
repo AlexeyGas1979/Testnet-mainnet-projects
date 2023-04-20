@@ -63,3 +63,4 @@ When you're done press Ctrl+x, then Y, then Enter.
 After that run 
 goracle docker-stop && goracle docker-start --background
 And check the logs with logs command
+
