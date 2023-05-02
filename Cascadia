@@ -77,3 +77,6 @@ curl -L https://snapshots.kjnodes.com/cascadia-testnet/snapshot_latest.tar.lz4 |
 [[ -f $HOME/.cascadiad/data/upgrade-info.json ]] && cp $HOME/.cascadiad/data/upgrade-info.json $HOME/.cascadiad/cosmovisor/genesis/upgrade-info.json
 
 sudo systemctl start cascadiad && sudo journalctl -u cascadiad -f --no-hostname -o cat
+
+Delegate tokens to yourself
+cascadiad tx staking delegate $(cascadiad keys show wallet --bech val -a) 1000000aCC --from wallet --chain-id cascadia_6102-1 --gas-adjustment 1.4 --gas auto --gas-prices 7aCC -y
