@@ -38,26 +38,17 @@ wget -O starknet.sh https://api.nodes.guru/starknet.sh && chmod +x starknet.sh &
 
 
 cd ~/pathfinder
-
 rustup update
-
 git fetch
-
-git checkout v0.4.5
-
+git checkout v0.5.4
+source $HOME/.cargo/env
 cargo build --release --bin pathfinder
-
 mv ~/pathfinder/target/release/pathfinder /usr/local/bin/
-
 cd py
-
+python3.10 -m venv .venv
 source .venv/bin/activate
-
-PIP_REQUIRE_VIRTUALENV=true pip install -e .[dev]
-
+PIP_REQUIRE_VIRTUALENV=true pip install -r requirements-dev.txt
 pip install --upgrade pip
-
 systemctl restart starknetd
-
 pathfinder -V
-Pathfinder v0.4.5
+Pathfinder v0.5.4
