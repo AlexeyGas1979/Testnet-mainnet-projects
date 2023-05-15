@@ -4,4 +4,3 @@ wget -q -O chainflip.sh https://nodes.wenmoney.io/chainflip.sh && chmod +x chain
 
 Update
 wget -q -O chainflip.sh https://nodes.wenmoney.io/chainflip.sh && chmod +x chainflip.sh && sudo /bin/bash chainflip.sh
-
