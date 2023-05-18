@@ -143,3 +143,11 @@ Or:
 
 Unjail
 nibid tx slashing unjail --from wallet -y  --fees 13000unibi --chain-id nibiru-itn-1  --gas 500000
+
+If your memory is full:
+1 Stop the node
+2 Save /.nibid/data/priv_validator_state.json
+3 Delete /.nibid/data folder
+4 Download and extract the snapshot to the /.nibid folder from here for example: https://snapshots.kjnodes.com/nibiru-testnet/snapshot_latest.tar.lz4
+5 Put back priv_validator_state.json
+6 Run node.
