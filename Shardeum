@@ -48,3 +48,17 @@ export APP_IP=YOUR_NoDE_IP
 sudo apt install screen
 screen -S monitor
 wget -q -O node_control.sh https://raw.githubusercontent.com/mesahin001/shardeum/main/node_control.sh && chmod +x node_control.sh && sudo /bin/bash node_control.sh
+
+Stake/Unstake
+cd
+cd .shardeum
+./shell.sh
+operator-cli start
+export PRIV_KEY=<private_key>
+check:
+echo $PRIV_KEY
+operator-cli stake 10
+check:
+operator-cli stake_info <wallet_address>
+remove stake:
+operator-cli unstake
