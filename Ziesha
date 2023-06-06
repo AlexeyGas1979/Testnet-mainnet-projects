@@ -208,3 +208,15 @@ cd bazuka && git pull && cargo update && cargo install --path . && rm -rf ~/.baz
 Don't forget to restart your node, and initialize your staker again! 
 bazuka init --mnemonic "question when lawsuit width leader security sugar idle consider omit job noodle"
 sudo systemctl restart ziesha && sudo journalctl -f -u ziesha
+
+Validator create
+1) Check ballance 
+bazuka wallet info
+2)Send tockens from jub... to ed...
+bazuka wallet send --from jub00000000000000000000000000 --to ed000000000000000000000000000 --amount XXXX
+3) Validator create
+bazuka wallet register-validator --commission 0.1
+4)  Get validator address
+bazuka wallet info --validator
+5) Delegate
+bazuka wallet delegate --to edXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX --amount XXX
