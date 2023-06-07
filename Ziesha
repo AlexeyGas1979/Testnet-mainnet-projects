@@ -220,3 +220,14 @@ bazuka wallet register-validator --commission 0.1
 bazuka wallet info --validator
 5) Delegate
 bazuka wallet delegate --to edXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX --amount XXX
+
+Proover create
+sudo apt update && sudo apt upgrade -y; \
+sudo apt install -y build-essential libssl-dev cmake ocl-icd-opencl-dev; \
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+wget -q -O - https://git.io/vQhTU | bash
+git clone https://github.com/ziesha-network/zoro; \
+cd zoro; \
+cargo update; \
+cargo install --path .
+zoro generate-params
