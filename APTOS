@@ -84,6 +84,7 @@ voting_duration_secs: 43200
 voting_power_increase_limit: 20
 EOF
 
+
 wget https://github.com/aptos-labs/aptos-core/releases/download/aptos-framework-v0.3.0/framework.mrb -P ~/$WORKSPACE
 aptos genesis generate-genesis --local-repository-dir ~/$WORKSPACE --output-dir ~/$WORKSPACE
 docker-compose up -d
